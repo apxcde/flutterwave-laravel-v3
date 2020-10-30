@@ -75,6 +75,29 @@ class virtualAccountEventHandler implements EventHandlerInterface{
 }
 
 class VirtualAccount {
+    protected $handler;
+
+    /**
+     * Sets the event hooks for all available triggers
+     * @param object $handler This is a class that implements the Event Handler Interface
+     * @return object
+     * */
+    function eventHandler($handler){
+        $this->handler = $handler;
+        return $this;
+    }
+
+    /**
+     * Gets the event hooks for all available triggers
+     * @return object
+     * */
+    function getEventHandler(){
+        if ($this->handler) {
+            return $this->handler;
+        }
+
+        return new virtualAccountEventHandler;
+    }
 
     /**
      * Creating the VirtualAccount
@@ -88,19 +111,18 @@ class VirtualAccount {
         }
 
 
-        Rave::eventHandler(new virtualAccountEventHandler)
+        Rave::eventHandler($this->getEventHandler())
         //set the endpoint for the api call
         ->setEndPoint("v3/virtual-account-numbers");
 
         //returns the value of the result.
         return Rave::createVirtualAccount($userdata);
 
-
-
     }
+
     function createBulkAccounts($array){
 
-        Rave::eventHandler(new virtualAccountEventHandler)
+        Rave::eventHandler($this->getEventHandler())
         //set the endpoint for the api call
         ->setEndPoint("v3/bulk-virtual-account-numbers");
 
@@ -113,7 +135,7 @@ class VirtualAccount {
             throw new \Exception("The following body params are required: batch_id", 1);
         }
 
-        Rave::eventHandler(new virtualAccountEventHandler)
+        Rave::eventHandler($this->getEventHandler())
         //set the endpoint for the api call
         ->setEndPoint("v3/bulk-virtual-account-numbers/". $array['batch_id']);
 
@@ -128,7 +150,7 @@ class VirtualAccount {
             throw new \Exception("The following body params are required: order_ref", 1);
         }
 
-        Rave::eventHandler(new virtualAccountEventHandler)
+        Rave::eventHandler($this->getEventHandler())
         //set the endpoint for the api call
         ->setEndPoint("v3/virtual-account-numbers/". $array['order_ref']);
 
