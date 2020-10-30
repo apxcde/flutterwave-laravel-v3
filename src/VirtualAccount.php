@@ -8,6 +8,13 @@ use Laravel\Flutterwave\EventHandlerInterface;
 
 class virtualAccountEventHandler implements EventHandlerInterface{
     /**
+     * This is called when the Rave class is initialized
+     * */
+    function onInit($initializationData) {
+        // Save the transaction to your DB.
+    }
+
+    /**
      * This is called only when a transaction is successful
      * */
     function onSuccessful($transactionData){
