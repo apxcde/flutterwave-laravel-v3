@@ -990,9 +990,6 @@ class Rave {
             $result  = $this->postURL($this->post_data);
             // the result returned requires validation
             $result = json_decode($result, true);
-            // echo '<pre>';
-            // print_r($result);
-            // echo '</pre>';
 
             if($result['status'] == 'success' ){
                 if($result['meta']['authorization']['mode'] == 'pin' || $result['meta']['authorization']['mode'] == 'avs_noauth'
@@ -1052,9 +1049,6 @@ class Rave {
             $this->flwRef = $result['data']['flw_ref'];
             $this->txref = $result['data']['tx_ref'];
         }
-
-
-
 
 
         return $result;

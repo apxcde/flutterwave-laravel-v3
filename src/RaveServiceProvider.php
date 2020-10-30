@@ -32,6 +32,7 @@ class RaveServiceProvider extends ServiceProvider
         $this->bindAccountPayment();
         $this->bindAchPayment();
         $this->bindBill();
+        $this->bindBvn();
         $this->bindRave();
         $this->bindVirtualAccount();
     }
@@ -47,30 +48,10 @@ class RaveServiceProvider extends ServiceProvider
             'laravelaccountpayment',
             'laravelachpayment',
             'laravelbill',
+            'laravelbvn',
             'laravelrave',
             'laravelvirtualaccount',
         ];
-    }
-
-    private function bindRave()
-    {
-        $this->app->singleton('laravelrave', function ($app) {
-            $secret_key = config('flutterwave.secret_key');
-            $prefix = config('app.name');
-
-            return new Rave($secret_key, $prefix);
-        });
-
-        $this->app->alias('laravelrave', "Laravel\Flutterwave\Rave");
-    }
-
-    private function bindVirtualAccount()
-    {
-        $this->app->singleton('laravelvirtualaccount', function ($app) {
-            return new VirtualAccount;
-        });
-
-        $this->app->alias('laravelvirtualaccount', "Laravel\Flutterwave\VirtualAccount");
     }
 
     private function bindAccountPayment()
@@ -98,5 +79,35 @@ class RaveServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('laravelbill', "Laravel\Flutterwave\Bill");
+    }
+
+    private function bindBvn()
+    {
+        $this->app->singleton('laravelbvn', function ($app) {
+            return new Bvn;
+        });
+
+        $this->app->alias('laravelbvn', "Laravel\Flutterwave\Bvn");
+    }
+
+    private function bindRave()
+    {
+        $this->app->singleton('laravelrave', function ($app) {
+            $secret_key = config('flutterwave.secret_key');
+            $prefix = config('app.name');
+
+            return new Rave($secret_key, $prefix);
+        });
+
+        $this->app->alias('laravelrave', "Laravel\Flutterwave\Rave");
+    }
+
+    private function bindVirtualAccount()
+    {
+        $this->app->singleton('laravelvirtualaccount', function ($app) {
+            return new VirtualAccount;
+        });
+
+        $this->app->alias('laravelvirtualaccount', "Laravel\Flutterwave\VirtualAccount");
     }
 }
