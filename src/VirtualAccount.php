@@ -1,10 +1,9 @@
 <?php
 
-namespace Flutterwave;
+namespace Laravel\Flutterwave;
 
 use Laravel\Flutterwave\Facades\Rave;
 use Laravel\Flutterwave\EventHandlerInterface;
-
 
 class virtualAccountEventHandler implements EventHandlerInterface{
     /**

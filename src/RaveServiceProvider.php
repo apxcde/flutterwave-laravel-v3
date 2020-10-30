@@ -51,7 +51,7 @@ class RaveServiceProvider extends ServiceProvider
             $secret_key = config('flutterwave.secret_key');
             $prefix = config('app.name');
 
-            return new Rave($secret_key, $prefix, true);
+            return new Rave($secret_key, $prefix);
         });
 
         $this->app->alias('laravelrave', "Laravel\Flutterwave\Rave");

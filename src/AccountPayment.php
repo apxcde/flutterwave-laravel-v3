@@ -73,6 +73,29 @@ class accountEventHandler implements EventHandlerInterface{
 
 class Account {
     protected $payment;
+    protected $handler;
+
+    /**
+     * Sets the event hooks for all available triggers
+     * @param object $handler This is a class that implements the Event Handler Interface
+     * @return object
+     * */
+    function eventHandler($handler){
+        $this->handler = $handler;
+        return $this;
+    }
+
+    /**
+     * Gets the event hooks for all available triggers
+     * @return object
+     * */
+    function getEventHandler(){
+        if ($this->handler) {
+            return $this->handler;
+        }
+
+        return new virtualAccountEventHandler;
+    }
 
     function __construct(){
         $this->payment = new Rave($_ENV['SECRET_KEY']);
