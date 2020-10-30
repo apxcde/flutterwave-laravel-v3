@@ -1,6 +1,6 @@
 <?php
 
-namespace Flutterwave;
+namespace Laravel\Flutterwave;
 
 require("lib/rave.php");
 require_once('raveEventHandlerInterface.php');

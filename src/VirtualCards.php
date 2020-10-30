@@ -1,5 +1,5 @@
 <?php
-namespace Flutterwave;
+namespace Laravel\Flutterwave;
 
 //uncomment if you need this
 //define("BASEPATH", 1);//Allow direct access to rave.php and raveEventHandler.php

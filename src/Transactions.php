@@ -1,5 +1,5 @@
 <?php
-namespace Flutterwave;
+namespace Laravel\Flutterwave;
 
 define("BASEPATH", 1);
 
