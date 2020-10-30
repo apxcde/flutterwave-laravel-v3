@@ -67,8 +67,8 @@ class Rave {
      * */
     function __construct($secretKey, $prefix = 'RV', $overrideRefWithPrefix = false){
         $this->secretKey = $secretKey;
-        $this->publicKey = env('FLUTTERWAVE_PUBLIC_KEY');
-        $this->env = env('FLUTTERWAVE_ENV');
+        $this->publicKey = config('flutterwave.public_key');
+        $this->env = config('flutterwave.env');
         $this->transactionPrefix = $overrideRefWithPrefix ? $prefix : $prefix.'_';
         $this->overrideTransactionReference = $overrideRefWithPrefix;
 
@@ -113,19 +113,19 @@ class Rave {
 
         ksort($options);
 
-        // $this->transactionData = $options;
-        //
-        // $hashedPayload = '';
-        //
-        // foreach($options as $key => $value){
-        //     $hashedPayload .= $value;
-        // }
-        //
-        // $completeHash = $hashedPayload.$this->secretKey;
-        // $hash = hash('sha256', $completeHash);
-        //
-        // $this->integrityHash = $hash;
-        // return $this;
+        $this->transactionData = $options;
+
+        $hashedPayload = '';
+
+        foreach($options as $key => $value){
+            $hashedPayload .= $value;
+        }
+
+        $completeHash = $hashedPayload.$this->secretKey;
+        $hash = hash('sha256', $completeHash);
+
+        $this->integrityHash = $hash;
+        return $this;
     }
 
     /**
@@ -637,11 +637,11 @@ class Rave {
      * */
 
     function encryption($options){
-         //encrypt and return the key using the secrekKey
-         $this->key = env('FLUTTERWAVE_ENCRYPTION_KEY');
-         //set the data to transactionData
-         $this->transactionData = $options;
-         //encode the data and the
+        //encrypt and return the key using the secrekKey
+        $this->key = config('flutterwave.encryption_key');
+        //set the data to transactionData
+        $this->transactionData = $options;
+        //encode the data and the
         return $this->encrypt3Des( $this->transactionData,  $this->key);
     }
 
