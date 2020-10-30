@@ -67,11 +67,7 @@ class virtualAccountEventHandler implements EventHandlerInterface{
     }
 }
 
-class VirtualAccount{
-
-    function __construct(){
-        $this->va = new Rave($_ENV['SECRET_KEY']);
-    }
+class VirtualAccount {
 
     /**
      * Creating the VirtualAccount
