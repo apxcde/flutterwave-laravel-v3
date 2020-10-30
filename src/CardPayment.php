@@ -109,7 +109,7 @@ class Card {
             return $this->handler;
         }
 
-        return new achEventHandler;
+        return new cardEventHandler;
     }
 
     function cardCharge($array){
@@ -122,7 +122,7 @@ class Card {
 
         $this->payment->type = 'card';
         //set the payment handler
-        $this->payment->eventHandler(new cardEventHandler)
+        $this->payment->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
         ->setEndPoint("v3/charges?type=".$this->payment->type);
 

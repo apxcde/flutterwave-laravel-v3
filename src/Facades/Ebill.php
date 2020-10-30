@@ -4,7 +4,7 @@ namespace Laravel\Flutterwave\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class CardPayment extends Facade
+class Ebill extends Facade
 {
     /**
      * Get the registered name of the component
@@ -12,6 +12,6 @@ class CardPayment extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'laravelcardpayment';
+        return 'laravelebill';
     }
 }

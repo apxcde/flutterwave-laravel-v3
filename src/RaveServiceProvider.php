@@ -34,6 +34,7 @@ class RaveServiceProvider extends ServiceProvider
         $this->bindBill();
         $this->bindBvn();
         $this->bindCardPayment();
+        $this->bindEbill();
         $this->bindRave();
         $this->bindVirtualAccount();
     }
@@ -51,6 +52,7 @@ class RaveServiceProvider extends ServiceProvider
             'laravelbill',
             'laravelbvn',
             'laravelcardpayment',
+            'laravelebill',
             'laravelrave',
             'laravelvirtualaccount',
         ];
@@ -99,6 +101,15 @@ class RaveServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('laravelcardpayment', "Laravel\Flutterwave\Card");
+    }
+
+    private function bindEbill()
+    {
+        $this->app->singleton('laravelebill', function ($app) {
+            return new Ebill;
+        });
+
+        $this->app->alias('laravelebill', "Laravel\Flutterwave\Ebill");
     }
 
     private function bindRave()
