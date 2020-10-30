@@ -15,7 +15,7 @@ class UnitTests extends TestCase {
     use ExtractProperties;
 
     /**
-     * Tests if app returns \Laravel\Flutterwave\Rave if called with ailas.
+     * Tests if app returns \Laravel\Flutterwave\Rave if called with alias.
      *
      * @test
      * @return \Laravel\Flutterwave\Rave

@@ -32,8 +32,8 @@ class FeatureTests extends TestCase {
         $request->phonenumber = '080232382382';
         $request->payment_method = 'online';
         $request->pay_button_text = 'Pay Now';
-        $rave = new Rave($request, new UnirestRequest, new Body);
-        $rave->initialize("http://localhost");
+        $rave = new Rave('FLWSECK-4127f15e63c9098402dcc7891798fb0f-X');
+        $rave->initialize();
 
         $this->assertTrue($rave instanceof Rave);
 
@@ -107,7 +107,7 @@ class FeatureTests extends TestCase {
     function paymentCancelledTest() {
         $request = new Request();
         $request->cancelled = true;
-        $rave = new Rave($request, new UnirestRequest, new Body);
+        $rave = new Rave('FLWSECK-4127f15e63c9098402dcc7891798fb0f-X');
         $rave = $rave->createReferenceNumber();
         $ref = $rave->getReferenceNumber();
 

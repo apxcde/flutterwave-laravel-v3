@@ -41,6 +41,7 @@ class ComposerStaticInit007bd615e6aba03e54051f65a158c3ad
         'T' => 
         array (
             'TijsVerkoyen\\CssToInlineStyles\\' => 31,
+            'Tests\\' => 6,
         ),
         'S' => 
         array (
@@ -153,6 +154,10 @@ class ComposerStaticInit007bd615e6aba03e54051f65a158c3ad
         'TijsVerkoyen\\CssToInlineStyles\\' => 
         array (
             0 => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src',
+        ),
+        'Tests\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/tests',
         ),
         'Symfony\\Polyfill\\Php80\\' => 
         array (
@@ -504,8 +509,8 @@ class ComposerStaticInit007bd615e6aba03e54051f65a158c3ad
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
         'Laravel\\Flutterwave\\EventHandlerInterface' => __DIR__ . '/../..' . '/src/raveEventHandlerInterface.php',
         'Laravel\\Flutterwave\\Facades\\Rave' => __DIR__ . '/../..' . '/src/Facades/Rave.php',
-        'Laravel\\Flutterwave\\FlutterwaveServiceProvider' => __DIR__ . '/../..' . '/src/FlutterwaveServiceProvider.php',
         'Laravel\\Flutterwave\\Rave' => __DIR__ . '/../..' . '/src/rave.php',
+        'Laravel\\Flutterwave\\RaveServiceProvider' => __DIR__ . '/../..' . '/src/RaveServiceProvider.php',
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',

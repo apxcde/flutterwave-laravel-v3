@@ -1,4 +1,4 @@
-Log::<?php
+<?php
 
 namespace Laravel\Flutterwave;
 
@@ -113,19 +113,19 @@ class Rave {
 
         ksort($options);
 
-        $this->transactionData = $options;
-
-        $hashedPayload = '';
-
-        foreach($options as $key => $value){
-            $hashedPayload .= $value;
-        }
-
-        $completeHash = $hashedPayload.$this->secretKey;
-        $hash = hash('sha256', $completeHash);
-
-        $this->integrityHash = $hash;
-        return $this;
+        // $this->transactionData = $options;
+        //
+        // $hashedPayload = '';
+        //
+        // foreach($options as $key => $value){
+        //     $hashedPayload .= $value;
+        // }
+        //
+        // $completeHash = $hashedPayload.$this->secretKey;
+        // $hash = hash('sha256', $completeHash);
+        //
+        // $this->integrityHash = $hash;
+        // return $this;
     }
 
     /**

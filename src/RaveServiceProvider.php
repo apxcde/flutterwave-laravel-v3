@@ -4,7 +4,7 @@ namespace Laravel\Flutterwave;
 
 use Illuminate\Support\ServiceProvider;
 
-class FlutterwaveServiceProvider extends ServiceProvider
+class RaveServiceProvider extends ServiceProvider
 {
     protected $defer = false;
 
@@ -47,7 +47,7 @@ class FlutterwaveServiceProvider extends ServiceProvider
     private function bindRave()
     {
         $this->app->singleton('laravelrave', function ($app) {
-            return new Rave($app->make("request"), new Request, new Body);
+            return new Rave(env('FLUTTERWAVE_SECRET_KEY'));
         });
 
         $this->app->alias('laravelrave', "Laravel\Flutterwave\Rave");
