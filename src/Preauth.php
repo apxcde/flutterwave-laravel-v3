@@ -2,11 +2,8 @@
 
 namespace Laravel\Flutterwave;
 
-require("lib/rave.php");
-require("lib/raveEventHandlerInterface.php");
-
-use Flutterwave\Rave;
-use Flutterwave\EventHandlerInterface;
+use Laravel\Flutterwave\Rave;
+use Laravel\Flutterwave\EventHandlerInterface;
 
 class preEventHandler implements EventHandlerInterface{
 
