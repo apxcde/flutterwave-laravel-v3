@@ -18,7 +18,7 @@ class Preauth {
     }
 
     function accountCharge($array){
-        //set the payment handler 
+        //set the payment handler
         $this->payment->eventHandler(new accountEventHandler)
         //set the endpoint for the api call
         ->setEndPoint("");
@@ -34,7 +34,7 @@ class Preauth {
     }
 
     function captureFunds($array){
-        //set the payment handler 
+        //set the payment handler
         $this->plan->eventHandler(new preEventHandler)
         //set the endpoint for the api call
         ->setEndPoint("flwv3-pug/getpaidx/api/capture");
@@ -44,7 +44,7 @@ class Preauth {
 
     function refundOrVoid($array){
 
-         //set the payment handler 
+         //set the payment handler
          $this->plan->eventHandler(new preEventHandler)
          //set the endpoint for the api call
          ->setEndPoint("flwv3-pug/getpaidx/api/refundorvoid");
@@ -52,6 +52,5 @@ class Preauth {
          return $this->plan->refundOrVoid($array);
 
     }
-
 
 }
