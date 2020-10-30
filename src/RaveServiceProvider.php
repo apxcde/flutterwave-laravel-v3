@@ -37,6 +37,7 @@ class RaveServiceProvider extends ServiceProvider
         $this->bindEbill();
         $this->bindMisc();
         $this->bindMobileMoney();
+        $this->bindMpesa();
         $this->bindRave();
         $this->bindVirtualAccount();
     }
@@ -57,6 +58,7 @@ class RaveServiceProvider extends ServiceProvider
             'laravelebill',
             'laravelmisc',
             'laravelmobilemoney',
+            'laravelmpesa',
             'laravelrave',
             'laravelvirtualaccount',
         ];
@@ -132,6 +134,15 @@ class RaveServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('laravelmobilemoney', "Laravel\Flutterwave\MobileMoney");
+    }
+
+    private function bindMpesa()
+    {
+        $this->app->singleton('laravelmpesa', function ($app) {
+            return new Mpesa;
+        });
+
+        $this->app->alias('laravelmpesa', "Laravel\Flutterwave\Mpesa");
     }
 
     private function bindRave()

@@ -1,4 +1,5 @@
 <?php
+
 namespace Laravel\Flutterwave;
 
 use Laravel\Flutterwave\Rave;
