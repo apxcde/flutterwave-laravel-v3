@@ -1,5 +1,5 @@
 <?php
-namespace Flutterwave;
+namespace Laravel\Flutterwave;
 
 use Laravel\Flutterwave\Rave;
 use Laravel\Flutterwave\EventHandlerInterface;
@@ -83,7 +83,10 @@ class Account {
     protected $handler;
 
     function __construct(){
-        $this->payment = new Rave(config('flutterwave.secret_key'));
+        $secret_key = config('flutterwave.secret_key');
+        $prefix = config('app.name');
+
+        $this->payment = new Rave($secret_key, $prefix);
         $this->type = array('debit_uk_account','debit_ng_account');
         $this->valType = "account";
     }
