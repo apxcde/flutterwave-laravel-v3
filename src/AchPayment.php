@@ -126,9 +126,7 @@ class Ach {
         ->setEndPoint("v3/charges?type=".$this->payment->type);
 
         //returns the value from the results
-        $result = $this->payment->chargePayment($array);
-
-        return $result;
+        return $this->payment->chargePayment($array);
     }
 
 

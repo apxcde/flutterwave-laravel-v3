@@ -29,10 +29,11 @@ class RaveServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->bindRave();
-        $this->bindVirtualAccount();
         $this->bindAccountPayment();
         $this->bindAchPayment();
+        $this->bindBill();
+        $this->bindRave();
+        $this->bindVirtualAccount();
     }
 
     /**
@@ -43,10 +44,11 @@ class RaveServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            'laravelrave',
-            'laravelvirtualaccount',
             'laravelaccountpayment',
             'laravelachpayment',
+            'laravelbill',
+            'laravelrave',
+            'laravelvirtualaccount',
         ];
     }
 
@@ -87,5 +89,14 @@ class RaveServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('laravelachpayment', "Laravel\Flutterwave\Ach");
+    }
+
+    private function bindBill()
+    {
+        $this->app->singleton('laravelbill', function ($app) {
+            return new Bill;
+        });
+
+        $this->app->alias('laravelbill', "Laravel\Flutterwave\Bill");
     }
 }
