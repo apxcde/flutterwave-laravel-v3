@@ -7,5 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Unirest\\' => array($vendorDir . '/mashape/unirest-php/src'),
+    'PhpCollection' => array($vendorDir . '/phpcollection/phpcollection/src'),
     'Mockery' => array($vendorDir . '/mockery/mockery/library'),
+    'Metadata\\' => array($vendorDir . '/jms/metadata/src'),
+    'JMS\\Serializer' => array($vendorDir . '/jms/serializer/src'),
+    'JMS\\' => array($vendorDir . '/jms/parser-lib/src'),
 );

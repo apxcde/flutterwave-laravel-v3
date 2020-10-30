@@ -186,3 +186,8 @@ tmtags
 # Local History for Visual Studio Code
 .history/
 
+# dependancy files
+/vendor
+composer.lock
+.phpunit.result.cache
+.env
