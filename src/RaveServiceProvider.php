@@ -47,7 +47,10 @@ class RaveServiceProvider extends ServiceProvider
     private function bindRave()
     {
         $this->app->singleton('laravelrave', function ($app) {
-            return new Rave(env('FLUTTERWAVE_SECRET_KEY'));
+            $secret_key = config('flutterwave.secret_key');
+            $prefix = config('app.name');
+
+            return new Rave($secret_key, $prefix, true);
         });
 
         $this->app->alias('laravelrave', "Laravel\Flutterwave\Rave");
