@@ -1,10 +1,17 @@
 <?php
 namespace Flutterwave;
 
-use Laravel\Flutterwave\Facades\Rave;
+use Laravel\Flutterwave\Rave;
 use Laravel\Flutterwave\EventHandlerInterface;
 
-class accountEventHandler implements EventHandlerInterface{
+class accountEventHandler implements EventHandlerInterface {
+    /**
+     * This is called when the Rave class is initialized
+     * */
+    function onInit($initializationData) {
+        // Save the transaction to your DB.
+    }
+
     /**
      * This is called only when a transaction is successful
      * */
@@ -75,6 +82,12 @@ class Account {
     protected $payment;
     protected $handler;
 
+    function __construct(){
+        $this->payment = new Rave(config('flutterwave.secret_key'));
+        $this->type = array('debit_uk_account','debit_ng_account');
+        $this->valType = "account";
+    }
+
     /**
      * Sets the event hooks for all available triggers
      * @param object $handler This is a class that implements the Event Handler Interface
@@ -94,13 +107,7 @@ class Account {
             return $this->handler;
         }
 
-        return new virtualAccountEventHandler;
-    }
-
-    function __construct(){
-        $this->payment = new Rave($_ENV['SECRET_KEY']);
-        $this->type = array('debit_uk_account','debit_ng_account');
-        $this->valType = "account";
+        return new accountEventHandler;
     }
 
     function accountCharge($array){
@@ -115,13 +122,11 @@ class Account {
 
 
         if(!in_array($array['type'], $this->type)){
-                echo '<div class="alert alert-danger" role="alert"> <b>Error:</b>
-                The Type specified in the payload  is not <b> "'.$this->type[0].' or '.$this->type[1].'"</b>
-              </div>';
+            throw new \Exception("The Type specified in the payload  is not {$this->type[0]} or {$this->type[1]}", 1);
         }
 
 
-        $this->payment->eventHandler(new accountEventHandler);
+        $this->payment->eventHandler($this->getEventHandler());
         //set the endpoint for the api call
         if ($this->type === $this->type[0]){
             $this->payment->setEndPoint("v3/charges?type=debit_uk_account");
@@ -135,20 +140,18 @@ class Account {
     }
 
     function validateTransaction($otp, $ref){
-            //validate the charge
-        $this->payment->eventHandler(new accountEventHandler);
+        //validate the charge
+        $this->payment->eventHandler($this->getEventHandler());
 
-        return $this->payment->validateTransaction($otp, $ref, $this->payment->type);//Uncomment this line if you need it
+        return $this->payment->validateTransaction($otp, $ref, $this->payment->type);
+    }
 
-       }
-
-       function return_txref(){
+    function return_txref(){
         return $this->payment->txref;
     }
 
     function verifyTransaction($id){
         //verify the charge
-        return $this->payment->verifyTransaction($id);//Uncomment this line if you need it
-
+        return $this->payment->verifyTransaction($id);
     }
 }

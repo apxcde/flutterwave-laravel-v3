@@ -31,6 +31,7 @@ class RaveServiceProvider extends ServiceProvider
     {
         $this->bindRave();
         $this->bindVirtualAccount();
+        $this->bindAccountPayment();
     }
 
     /**
@@ -42,6 +43,8 @@ class RaveServiceProvider extends ServiceProvider
     {
         return [
             'laravelrave',
+            'laravelvirtualaccount',
+            'laravelaccountpayment',
         ];
     }
 
@@ -64,5 +67,14 @@ class RaveServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('laravelvirtualaccount', "Laravel\Flutterwave\VirtualAccount");
+    }
+
+    private function bindAccountPayment()
+    {
+        $this->app->singleton('laravelaccountpayment', function ($app) {
+            return new AccountPayment;
+        });
+
+        $this->app->alias('laravelaccountpayment', "Laravel\Flutterwave\Account");
     }
 }
