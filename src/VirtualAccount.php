@@ -117,8 +117,6 @@ class VirtualAccount{
         //returns the value of the result.
         return Rave::getBulkAccounts($array);
 
-
-
     }
 
     function getAccountNumber($array){
@@ -135,6 +133,5 @@ class VirtualAccount{
         return Rave::getvAccountsNum();
 
     }
-
 
 }
