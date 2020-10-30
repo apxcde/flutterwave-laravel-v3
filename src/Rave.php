@@ -115,16 +115,14 @@ class Rave {
 
         $this->transactionData = $options;
 
-        $hashedPayload = '';
-
-        foreach($options as $key => $value){
-            $hashedPayload .= $value;
+        if(isset($this->handler)){
+            $this->handler->onInit((object) $this->transactionData);
         }
 
-        $completeHash = $hashedPayload.$this->secretKey;
-        $hash = hash('sha256', $completeHash);
+        //encrypt the required options to pass to the server
+        $this->json_options = json_encode($this->transactionData);
+        $this->integrityHash = $this->encryption($this->json_options);
 
-        $this->integrityHash = $hash;
         return $this;
     }
 
@@ -720,29 +718,28 @@ class Rave {
      * */
     function validateTransaction($otp,$ref,$type){
 
-
-                Log::notice('Validating otp...');
-                $this->setEndPoint("v3/validate-charge");
-                $this->post_data = array(
-                    'type' => $type,//type can be card or account
-                    'flw_ref' => $ref,
-                    'otp' => $otp,
-                );
-                $result  = $this->postURL($this->post_data);
-                return $result;
+        Log::notice('Validating otp...');
+        $this->setEndPoint("v3/validate-charge");
+        $this->post_data = array(
+            'type' => $type,//type can be card or account
+            'flw_ref' => $ref,
+            'otp' => $otp,
+        );
+        $result  = $this->postURL($this->post_data);
+        return $result;
 
     }
 
     function validateTransaction2($pin, $Ref){
 
         Log::notice('Validating pin...');
-                $this->setEndPoint("v3/validate-charge");
-                $this->post_data = array(
-                    'PBFPubKey' => $this->publicKey,
-                    'transactionreference' => $Ref,
-                    'otp' => $otp);
-                $result  = $this->postURL($this->post_data);
-                return $result;
+        $this->setEndPoint("v3/validate-charge");
+        $this->post_data = array(
+            'PBFPubKey' => $this->publicKey,
+            'transactionreference' => $Ref,
+            'otp' => $otp);
+        $result  = $this->postURL($this->post_data);
+        return $result;
 
 
     }
@@ -762,9 +759,9 @@ class Rave {
     }
 
     function getTransactionFee(){
-            $url = "";
-            $result = $this->getURL($url);
-            return json_decode($result, true);
+        $url = "";
+        $result = $this->getURL($url);
+        return json_decode($result, true);
 
     }
 
@@ -974,8 +971,7 @@ class Rave {
      *  @param array
      *  @return object
      * */
-
-	     function chargePayment($array){
+     function chargePayment($array){
 
         //remove the type param from the payload
 
@@ -992,8 +988,8 @@ class Rave {
             );
 
             $result  = $this->postURL($this->post_data);
-        // the result returned requires validation
-        $result = json_decode($result, true);
+            // the result returned requires validation
+            $result = json_decode($result, true);
             // echo '<pre>';
             // print_r($result);
             // echo '</pre>';
@@ -1495,12 +1491,4 @@ class Rave {
      }
 
 
-
-
-
-
-
 }
-
-// silencio es dorado
-?>
