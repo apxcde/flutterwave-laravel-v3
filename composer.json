@@ -1,13 +1,15 @@
 {
     "name": "kenkioko/flutterwave-laravel-v3",
-    "description": "A simple SDK for integrating to Flutterwave's Rave payment",
+    "description": "A Flutterwave's Version 3 Implementation For Laravel",
     "type": "library",
-    "keywords": ["rave", "flutterwave", "payment", "transfers", "africa"],
-    "homepage": "https://github.com/Flutterwave/Flutterwave-PHP-v3",
+    "version": "1.0.0",
+    "license": "MIT",
+    "keywords": ["rave", "flutterwave", "payment", "transfers", "africa", "laravel"],
+    "homepage": "https://github.com/kenkioko/flutterwave-laravel-v3",
     "autoload": {
         "classmap": [
             "src/",
-            "tests"
+            "tests/"
         ],
         "psr-4": {
             "Laravel\\Flutterwave\\": "src/"
