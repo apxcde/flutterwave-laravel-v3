@@ -45,6 +45,7 @@ class RaveServiceProvider extends ServiceProvider
         $this->bindSubaccount();
         $this->bindSubscription();
         $this->bindTokinizedCharge();
+        $this->bindTransactions();
         $this->bindVirtualAccount();
     }
 
@@ -72,6 +73,7 @@ class RaveServiceProvider extends ServiceProvider
             'flutterwavesubaccount',
             'flutterwavesubscription',
             'flutterwavetokenizedcharge',
+            'flutterwavetransactions',
             'flutterwavevirtualaccount',
         ];
     }
@@ -221,6 +223,15 @@ class RaveServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('flutterwavetokenizedcharge', "Laravel\Flutterwave\TokinizedCharge");
+    }
+
+    private function bindTransactions()
+    {
+        $this->app->singleton('flutterwavetransactions', function ($app) {
+            return new Transactions;
+        });
+
+        $this->app->alias('flutterwavetransactions', "Laravel\Flutterwave\Transactions");
     }
 
     private function bindVirtualAccount()
