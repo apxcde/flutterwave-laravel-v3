@@ -1,4 +1,5 @@
-Rave::<?php
+<?php
+
 namespace Laravel\Flutterwave;
 
 use Laravel\Flutterwave\Facades\Rave;
