@@ -48,6 +48,7 @@ class RaveServiceProvider extends ServiceProvider
         $this->bindTransactions();
         $this->bindTransactionVerification();
         $this->bindTransfer();
+        $this->bindUssd();
         $this->bindVirtualAccount();
     }
 
@@ -78,6 +79,7 @@ class RaveServiceProvider extends ServiceProvider
             'flutterwavetransactions',
             'flutterwavetransactionverification',
             'flutterwavetransfer',
+            'flutterussd',
             'flutterwavevirtualaccount',
         ];
     }
@@ -254,6 +256,15 @@ class RaveServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('flutterwavetransfer', "Laravel\Flutterwave\Transfer");
+    }
+
+    private function bindUssd()
+    {
+        $this->app->singleton('flutterussd', function ($app) {
+            return new Ussd;
+        });
+
+        $this->app->alias('flutterussd', "Laravel\Flutterwave\Ussd");
     }
 
     private function bindVirtualAccount()
