@@ -6,7 +6,8 @@
     "homepage": "https://github.com/Flutterwave/Flutterwave-PHP-v3",
     "autoload": {
         "classmap": [
-            "src/"
+            "src/",
+            "tests"
         ],
         "psr-4": {
             "Laravel\\Flutterwave\\": "src/"
