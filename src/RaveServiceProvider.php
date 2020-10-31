@@ -50,6 +50,7 @@ class RaveServiceProvider extends ServiceProvider
         $this->bindTransfer();
         $this->bindUssd();
         $this->bindVirtualAccount();
+        $this->bindVirtualCard();
     }
 
     /**
@@ -274,5 +275,14 @@ class RaveServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('flutterwavevirtualaccount', "Laravel\Flutterwave\VirtualAccount");
+    }
+
+    private function bindVirtualCard()
+    {
+        $this->app->singleton('fluttervirtualcard', function ($app) {
+            return new VirtualCard;
+        });
+
+        $this->app->alias('fluttervirtualcard', "Laravel\Flutterwave\VirtualCard");
     }
 }
