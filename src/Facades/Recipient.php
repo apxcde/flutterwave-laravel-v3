@@ -12,6 +12,6 @@ class Recipient extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'laravelrecipient';
+        return 'flutterwaverecipient';
     }
 }

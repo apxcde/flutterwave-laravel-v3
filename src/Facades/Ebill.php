@@ -12,6 +12,6 @@ class Ebill extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'laravelebill';
+        return 'flutterwaveebill';
     }
 }

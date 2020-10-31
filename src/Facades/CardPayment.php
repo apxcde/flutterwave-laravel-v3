@@ -12,6 +12,6 @@ class CardPayment extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'laravelcardpayment';
+        return 'flutterwavecardpayment';
     }
 }

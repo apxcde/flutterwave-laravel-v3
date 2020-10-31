@@ -12,6 +12,6 @@ class AccountPayment extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'laravelaccountpayment';
+        return 'flutterwaveaccountpayment';
     }
 }

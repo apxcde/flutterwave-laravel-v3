@@ -12,6 +12,6 @@ class Mpesa extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'laravelmpesa';
+        return 'flutterwavempesa';
     }
 }

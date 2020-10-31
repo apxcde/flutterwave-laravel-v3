@@ -12,6 +12,6 @@ class MobileMoney extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'laravelmobilemoney';
+        return 'flutterwavemobilemoney';
     }
 }

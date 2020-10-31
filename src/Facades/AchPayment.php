@@ -12,6 +12,6 @@ class AchPayment extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'laravelachpayment';
+        return 'flutterwaveachpayment';
     }
 }

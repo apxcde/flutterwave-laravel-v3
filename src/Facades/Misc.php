@@ -12,6 +12,6 @@ class Misc extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'laravelmisc';
+        return 'flutterwavemisc';
     }
 }

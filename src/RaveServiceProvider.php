@@ -51,139 +51,139 @@ class RaveServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            'laravelaccountpayment',
-            'laravelachpayment',
-            'laravelbill',
-            'laravelbvn',
-            'laravelcardpayment',
-            'laravelebill',
-            'laravelmisc',
-            'laravelmobilemoney',
-            'laravelmpesa',
-            'laravelpaymentplan',
-            'laravelrecipient,'
-            'laravelrave',
-            'laravelvirtualaccount',
+            'flutterwaveaccountpayment',
+            'flutterwaveachpayment',
+            'flutterwavebill',
+            'flutterwavebvn',
+            'flutterwavecardpayment',
+            'flutterwaveebill',
+            'flutterwavemisc',
+            'flutterwavemobilemoney',
+            'flutterwavempesa',
+            'flutterwavepaymentplan',
+            'flutterwaverecipient,'
+            'flutterwaverave',
+            'flutterwavevirtualaccount',
         ];
     }
 
     private function bindAccountPayment()
     {
-        $this->app->singleton('laravelaccountpayment', function ($app) {
+        $this->app->singleton('flutterwaveaccountpayment', function ($app) {
             return new Account;
         });
 
-        $this->app->alias('laravelaccountpayment', "Laravel\Flutterwave\Account");
+        $this->app->alias('flutterwaveaccountpayment', "Laravel\Flutterwave\Account");
     }
 
     private function bindAchPayment()
     {
-        $this->app->singleton('laravelachpayment', function ($app) {
+        $this->app->singleton('flutterwaveachpayment', function ($app) {
             return new Ach;
         });
 
-        $this->app->alias('laravelachpayment', "Laravel\Flutterwave\Ach");
+        $this->app->alias('flutterwaveachpayment', "Laravel\Flutterwave\Ach");
     }
 
     private function bindBill()
     {
-        $this->app->singleton('laravelbill', function ($app) {
+        $this->app->singleton('flutterwavebill', function ($app) {
             return new Bill;
         });
 
-        $this->app->alias('laravelbill', "Laravel\Flutterwave\Bill");
+        $this->app->alias('flutterwavebill', "Laravel\Flutterwave\Bill");
     }
 
     private function bindBvn()
     {
-        $this->app->singleton('laravelbvn', function ($app) {
+        $this->app->singleton('flutterwavebvn', function ($app) {
             return new Bvn;
         });
 
-        $this->app->alias('laravelbvn', "Laravel\Flutterwave\Bvn");
+        $this->app->alias('flutterwavebvn', "Laravel\Flutterwave\Bvn");
     }
 
     private function bindCardPayment()
     {
-        $this->app->singleton('laravelcardpayment', function ($app) {
+        $this->app->singleton('flutterwavecardpayment', function ($app) {
             return new Card;
         });
 
-        $this->app->alias('laravelcardpayment', "Laravel\Flutterwave\Card");
+        $this->app->alias('flutterwavecardpayment', "Laravel\Flutterwave\Card");
     }
 
     private function bindEbill()
     {
-        $this->app->singleton('laravelebill', function ($app) {
+        $this->app->singleton('flutterwaveebill', function ($app) {
             return new Ebill;
         });
 
-        $this->app->alias('laravelebill', "Laravel\Flutterwave\Ebill");
+        $this->app->alias('flutterwaveebill', "Laravel\Flutterwave\Ebill");
     }
 
     private function bindMisc()
     {
-        $this->app->singleton('laravelmisc', function ($app) {
+        $this->app->singleton('flutterwavemisc', function ($app) {
             return new Misc;
         });
 
-        $this->app->alias('laravelmisc', "Laravel\Flutterwave\Misc");
+        $this->app->alias('flutterwavemisc', "Laravel\Flutterwave\Misc");
     }
 
     private function bindMobileMoney()
     {
-        $this->app->singleton('laravelmobilemoney', function ($app) {
+        $this->app->singleton('flutterwavemobilemoney', function ($app) {
             return new MobileMoney;
         });
 
-        $this->app->alias('laravelmobilemoney', "Laravel\Flutterwave\MobileMoney");
+        $this->app->alias('flutterwavemobilemoney', "Laravel\Flutterwave\MobileMoney");
     }
 
     private function bindMpesa()
     {
-        $this->app->singleton('laravelmpesa', function ($app) {
+        $this->app->singleton('flutterwavempesa', function ($app) {
             return new Mpesa;
         });
 
-        $this->app->alias('laravelmpesa', "Laravel\Flutterwave\Mpesa");
+        $this->app->alias('flutterwavempesa', "Laravel\Flutterwave\Mpesa");
     }
 
     private function bindPaymentPlan()
     {
-        $this->app->singleton('laravelpaymentplan', function ($app) {
+        $this->app->singleton('flutterwavepaymentplan', function ($app) {
             return new PaymentPlan;
         });
 
-        $this->app->alias('laravelpaymentplan', "Laravel\Flutterwave\PaymentPlan");
+        $this->app->alias('flutterwavepaymentplan', "Laravel\Flutterwave\PaymentPlan");
     }
 
     private function bindRecipient()
     {
-        $this->app->singleton('laravelrecipient', function ($app) {
+        $this->app->singleton('flutterwaverecipient', function ($app) {
             return new Recipient;
         });
 
-        $this->app->alias('laravelrecipient', "Laravel\Flutterwave\Recipient");
+        $this->app->alias('flutterwaverecipient', "Laravel\Flutterwave\Recipient");
     }
 
     private function bindRave()
     {
-        $this->app->singleton('laravelrave', function ($app) {
+        $this->app->singleton('flutterwaverave', function ($app) {
             $secret_key = config('flutterwave.secret_key');
             $prefix = config('app.name');
 
             return new Rave($secret_key, $prefix);
         });
 
-        $this->app->alias('laravelrave', "Laravel\Flutterwave\Rave");
+        $this->app->alias('flutterwaverave', "Laravel\Flutterwave\Rave");
     }
 
     private function bindVirtualAccount()
     {
-        $this->app->singleton('laravelvirtualaccount', function ($app) {
+        $this->app->singleton('flutterwavevirtualaccount', function ($app) {
             return new VirtualAccount;
         });
 
-        $this->app->alias('laravelvirtualaccount', "Laravel\Flutterwave\VirtualAccount");
+        $this->app->alias('flutterwavevirtualaccount', "Laravel\Flutterwave\VirtualAccount");
     }
 }

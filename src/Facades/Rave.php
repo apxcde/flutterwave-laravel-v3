@@ -12,6 +12,6 @@ class Rave extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'laravelrave';
+        return 'flutterwaverave';
     }
 }

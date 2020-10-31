@@ -12,6 +12,6 @@ class VirtualAccount extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'laravelvirtualaccount';
+        return 'flutterwavevirtualaccount';
     }
 }

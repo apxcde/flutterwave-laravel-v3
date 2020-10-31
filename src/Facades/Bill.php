@@ -12,6 +12,6 @@ class Bill extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'laravelbill';
+        return 'flutterwavebill';
     }
 }
