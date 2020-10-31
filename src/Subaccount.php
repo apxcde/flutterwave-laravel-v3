@@ -1,16 +1,17 @@
 <?php
 namespace Laravel\Flutterwave;
 
-//uncomment if you need this
-//define("BASEPATH", 1);//Allow direct access to rave.php and raveEventHandler.php
-
-require_once('rave.php');
-require_once('raveEventHandlerInterface.php');
-
-use Flutterwave\Rave;
-use Flutterwave\EventHandlerInterface;
+use Laravel\Flutterwave\Facade\Rave;
+use Laravel\Flutterwave\EventHandlerInterface;
 
 class subaccountEventHandler implements EventHandlerInterface{
+    /**
+     * This is called when the Rave class is initialized
+     * */
+    function onInit($initializationData) {
+        // Save the transaction to your DB.
+    }
+
     /**
      * This is called only when a transaction is successful
      * */
@@ -26,7 +27,7 @@ class subaccountEventHandler implements EventHandlerInterface{
         // Update the transaction to note that you have given value for the transaction
         // You can also redirect to your success page from here
     }
-    
+
     /**
      * This is called only when a transaction failed
      * */
@@ -34,32 +35,32 @@ class subaccountEventHandler implements EventHandlerInterface{
         // Get the transaction from your DB using the transaction reference (txref)
         // Update the db transaction record (includeing parameters that didn't exist before the transaction is completed. for audit purpose)
         // You can also redirect to your failure page from here
-       
+
     }
-    
+
     /**
      * This is called when a transaction is requeryed from the payment gateway
      * */
     function onRequery($transactionReference){
         // Do something, anything!
     }
-    
+
     /**
      * This is called a transaction requery returns with an error
      * */
     function onRequeryError($requeryResponse){
         // Do something, anything!
     }
-    
+
     /**
      * This is called when a transaction is canceled by the user
      * */
     function onCancel($transactionReference){
         // Do something, anything!
         // Note: Somethings a payment can be successful, before a user clicks the cancel button so proceed with caution
-       
+
     }
-    
+
     /**
      * This is called when a transaction doesn't return with a success or a failure response. This can be a timedout transaction on the Rave server or an abandoned transaction by the customer.
      * */
@@ -67,67 +68,82 @@ class subaccountEventHandler implements EventHandlerInterface{
         // Get the transaction from your DB using the transaction reference (txref)
         // Queue it for requery. Preferably using a queue system. The requery should be about 15 minutes after.
         // Ask the customer to contact your support and you should escalate this issue to the flutterwave support team. Send this as an email and as a notification on the page. just incase the page timesout or disconnects
-      
+
     }
 }
 
 class Subaccount {
-    protected $subaccount;
-    function __construct(){
-        $this->subaccount = new Rave($_ENV['SECRET_KEY']);
+    protected $handler;
+
+    /**
+     * Sets the event hooks for all available triggers
+     * @param object $handler This is a class that implements the Event Handler Interface
+     * @return object
+     * */
+    function eventHandler($handler){
+        $this->handler = $handler;
+        return $this;
     }
-    function createSubaccount($array){
-            //set the payment handler 
-            $this->subaccount->eventHandler(new subaccountEventHandler)
-            //set the endpoint for the api call
-            ->setEndPoint("v3/subaccounts");
-            //returns the value from the results
-            return $this->subaccount->createSubaccount($array);
+
+    /**
+     * Gets the event hooks for all available triggers
+     * @return object
+     * */
+    function getEventHandler(){
+        if ($this->handler) {
+            return $this->handler;
         }
-    
+
+        return new subaccountEventHandler;
+    }
+
+    function createSubaccount($array){
+        //set the payment handler
+        Rave::eventHandler($this->getEventHandler())
+        //set the endpoint for the api call
+        ->setEndPoint("v3/subaccounts");
+        //returns the value from the results`
+        return Rave::createSubaccount($array);
+    }
+
     function getSubaccounts(){
-        
-        $this->subaccount->eventHandler(new subaccountEventHandler)
-            //set the endpoint for the api call
-            ->setEndPoint("v3/subaccounts");
-            //returns the value from the results
-            return $this->subaccount->getSubaccounts();
+
+        Rave::eventHandler($this->getEventHandler())
+        //set the endpoint for the api call
+        ->setEndPoint("v3/subaccounts");
+        //returns the value from the results
+        return Rave::getSubaccounts();
     }
 
     function fetchSubaccount($array){
 
-        $this->subaccount->eventHandler(new subaccountEventHandler)
-            //set the endpoint for the api call
-            ->setEndPoint("v3/subaccounts/".$array['id']);
-            //returns the value from the results
-            return $this->subaccount->fetchSubaccount();
+        Rave::eventHandler($this->getEventHandler())
+        //set the endpoint for the api call
+        ->setEndPoint("v3/subaccounts/".$array['id']);
+        //returns the value from the results
+        return Rave::fetchSubaccount();
 
     }
 
     function updateSubaccount($array){
 
-            if(!isset($array['id'])){
-                return '<div class="alert alert-danger" role="alert"> <b>Error:</b> 
-                Missing <b> id </b> Parameter in the payload
-              </div>';
-            }
+        if(!isset($array['id'])){
+            throw new \Exception("Missing id Parameter in the payload", 1);
+        }
 
-            $this->subaccount->eventHandler(new subaccountEventHandler)
-            //set the endpoint for the api call
-            ->setEndPoint("v3/subaccounts/".$array['id']);
-            //returns the value from the results
-            return $this->subaccount->updateSubaccount($array);
+        Rave::eventHandler($this->getEventHandler())
+        //set the endpoint for the api call
+        ->setEndPoint("v3/subaccounts/".$array['id']);
+        //returns the value from the results
+        return Rave::updateSubaccount($array);
 
     }
 
     function deleteSubaccount($array){
-        $this->subaccount->eventHandler(new subaccountEventHandler)
+        Rave::eventHandler($this->getEventHandler())
         //set the endpoint for the api call
         ->setEndPoint("v3/subaccounts/".$array['id']);
         //returns the value from the results
-        return $this->subaccount->deleteSubaccount();
+        return Rave::deleteSubaccount();
     }
 }
-
-
-?>

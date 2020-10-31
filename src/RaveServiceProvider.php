@@ -42,6 +42,7 @@ class RaveServiceProvider extends ServiceProvider
         $this->bindRave();
         $this->bindRecipient();
         $this->bindSettlement();
+        $this->bindSubaccount();
         $this->bindVirtualAccount();
     }
 
@@ -63,9 +64,10 @@ class RaveServiceProvider extends ServiceProvider
             'flutterwavemobilemoney',
             'flutterwavempesa',
             'flutterwavepaymentplan',
+            'flutterwaverave',
             'flutterwaverecipient,'
             'flutterwavesetlement',
-            'flutterwaverave',
+            'flutterwavesubaccount',
             'flutterwavevirtualaccount',
         ];
     }
@@ -188,6 +190,15 @@ class RaveServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('flutterwavesetlement', "Laravel\Flutterwave\Settlement");
+    }
+
+    private function bindSubaccount()
+    {
+        $this->app->singleton('flutterwavesubaccount', function ($app) {
+            return new Subaccount;
+        });
+
+        $this->app->alias('flutterwavesubaccount', "Laravel\Flutterwave\Subaccount");
     }
 
     private function bindVirtualAccount()
