@@ -108,7 +108,8 @@ class Rave {
                 "description" => $this->customDescription,
                 "logo" => $this->customLogo,
                 "title" => $this->customTitle,
-            ]
+            ],
+            "meta" => $this->meta
         );
 
         ksort($options);
