@@ -126,7 +126,7 @@ class TokinizedCharge
 
         //add tx_ref to the paylaod
         if (!isset($array['tx_ref']) || empty($array['tx_ref'])) {
-            $array['tx_ref'] = $this->payment->txref;
+            $array['tx_ref'] = $this->payment->getTxRef();
         }
 
         if (gettype($array['amount']) !== "integer") {
@@ -184,6 +184,6 @@ class TokinizedCharge
     public function verifyTransaction()
     {
         //verify the charge
-        return $this->payment->verifyTransaction($this->payment->txref);//Uncomment this line if you need it
+        return $this->payment->verifyTransaction($this->payment->getTxRef());
     }
 }

@@ -122,7 +122,7 @@ class Ussd
 
         //add tx_ref to the paylaod
         if (!isset($array['tx_ref']) || empty($array['tx_ref'])) {
-            $array['tx_ref'] = $this->payment->txref;
+            $array['tx_ref'] = $this->payment->getTxRef();
         }
 
         //set the payment handler

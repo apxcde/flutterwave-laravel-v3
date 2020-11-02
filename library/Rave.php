@@ -1002,7 +1002,7 @@ class Rave
         return $result;
     }
 
-    public function get_a_Plan()
+    public function getSinglePlan()
     {
         $url = "";
         $result =  $this->getURL($url);
