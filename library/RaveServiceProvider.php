@@ -46,8 +46,7 @@ class RaveServiceProvider extends ServiceProvider
         $this->bindSubaccount();
         $this->bindSubscription();
         $this->bindTokinizedCharge();
-        $this->bindTransactions();
-        $this->bindTransactionVerification();
+        $this->bindTransaction();
         $this->bindTransfer();
         $this->bindUssd();
         $this->bindVirtualAccount();
@@ -80,8 +79,7 @@ class RaveServiceProvider extends ServiceProvider
             'flutterwavesubaccount',
             'flutterwavesubscription',
             'flutterwavetokenizedcharge',
-            'flutterwavetransactions',
-            'flutterwavetransactionverification',
+            'flutterwavetransaction',
             'flutterwavetransfer',
             'flutterussd',
             'flutterwavevirtualaccount',
@@ -246,22 +244,13 @@ class RaveServiceProvider extends ServiceProvider
         $this->app->alias('flutterwavetokenizedcharge', "Laravel\Flutterwave\TokinizedCharge");
     }
 
-    private function bindTransactions()
+    private function bindTransaction()
     {
-        $this->app->bind('flutterwavetransactions', function ($app) {
-            return new Transactions;
+        $this->app->bind('flutterwavetransaction', function ($app) {
+            return new Transaction;
         });
 
-        $this->app->alias('flutterwavetransactions', "Laravel\Flutterwave\Transactions");
-    }
-
-    private function bindTransactionVerification()
-    {
-        $this->app->bind('flutterwavetransactionverification', function ($app) {
-            return new TransactionVerification;
-        });
-
-        $this->app->alias('flutterwavetransactionverification', "Laravel\Flutterwave\TransactionVerification");
+        $this->app->alias('flutterwavetransaction', "Laravel\Flutterwave\Transaction");
     }
 
     private function bindTransfer()

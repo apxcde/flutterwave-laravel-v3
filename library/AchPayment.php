@@ -26,11 +26,4 @@ class Ach
         //returns the value from the results
         return $this->rave->chargePayment($array);
     }
-
-
-    public function verifyTransaction($id)
-    {
-        //verify the charge
-        return $this->rave->verifyTransaction($id);
-    }
 }

@@ -23,14 +23,4 @@ class VoucherPayment
         //returns the value from the results
         return $this->rave->chargePayment($array);
     }
-
-    /**you will need to verify the charge
-     * After validation then verify the charge with the txRef
-     * You can write out your function to execute when the verification is successful in the onSuccessful function
-    ***/
-    public function verifyTransaction($id)
-    {
-        //verify the charge
-        return $this->rave->verifyTransaction($id);
-    }
 }

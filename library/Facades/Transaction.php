@@ -4,7 +4,7 @@ namespace Laravel\Flutterwave\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class TransactionVerification extends Facade
+class Transaction extends Facade
 {
     /**
      * Get the registered name of the component
@@ -12,6 +12,6 @@ class TransactionVerification extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'flutterwavetransactionverification';
+        return 'flutterwavetransaction';
     }
 }

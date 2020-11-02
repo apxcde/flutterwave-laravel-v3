@@ -67,10 +67,4 @@ class TokinizedCharge
 
         $this->rave->bulkCharges($data);
     }
-
-    public function verifyTransaction()
-    {
-        //verify the charge
-        return $this->rave->verifyTransaction($this->rave->getTxRef());
-    }
 }

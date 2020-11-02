@@ -39,18 +39,4 @@ class Account
 
         return $this->rave->chargePayment($array);
     }
-
-    public function validateTransaction($otp, $ref)
-    {
-        //validate the charge
-        $this->rave->eventHandler($this->getEventHandler());
-
-        return $this->rave->validateTransaction($otp, $ref, $this->rave->getType());
-    }
-
-    public function verifyTransaction($id)
-    {
-        //verify the charge
-        return $this->rave->verifyTransaction($id);
-    }
 }

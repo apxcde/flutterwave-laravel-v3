@@ -4,7 +4,7 @@ namespace Laravel\Flutterwave;
 
 use Laravel\Flutterwave\RaveServiceTrait;
 
-class Transactions
+class Transaction
 {
     use RaveServiceTrait;
 
@@ -32,17 +32,6 @@ class Transactions
         return $this->rave->getTransactionFee($array);
     }
 
-    public function verifyTransaction($id)
-    {
-        //set the payment handler
-        $this->rave->eventHandler($this->getEventHandler())
-        //set the endpoint for the api call
-        ->setEndPoint("v3/transactions/".$id."/verify");
-        //returns the value from the results
-        return $this->rave->verifyTransaction($id);
-    }
-
-
     public function viewTimeline($array = array())
     {
         if (!isset($array['id'])) {
@@ -55,5 +44,15 @@ class Transactions
         ->setEndPoint("v3/transactions/".$array['id']."/events");
         //returns the value from the results
         return $this->rave->transactionTimeline();
+    }
+
+    public function verifyTransaction($id)
+    {
+        //set the payment handler
+        $this->rave->eventHandler($this->getEventHandler())
+        //set the endpoint for the api call
+        ->setEndPoint("v3/transactions/".$id."/verify");
+        //returns the value from the results
+        return $this->rave->verifyTransaction($id);
     }
 }

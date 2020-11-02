@@ -37,10 +37,4 @@ class Card
         //validate the charge
         return $this->rave->validateTransaction($element, $ref, $this->rave->getType());
     }
-
-    public function verifyTransaction($id)
-    {
-        //verify the charge
-        return $this->rave->verifyTransaction($id);
-    }
 }

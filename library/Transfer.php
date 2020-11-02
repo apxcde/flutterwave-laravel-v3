@@ -83,10 +83,4 @@ class Transfer
 
         return $this->transfer->getBanksForTransfer();
     }
-
-    public function verifyTransaction()
-    {
-        //verify the charge
-        return $this->transfer->verifyTransaction($this->transfer->txref);
-    }
 }
