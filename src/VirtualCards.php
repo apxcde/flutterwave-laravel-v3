@@ -5,18 +5,21 @@ namespace Laravel\Flutterwave;
 use Laravel\Flutterwave\Facades\Rave;
 use Laravel\Flutterwave\EventHandlerInterface;
 
-class virtualCardEventHandler implements EventHandlerInterface{
+class virtualCardEventHandler implements EventHandlerInterface
+{
     /**
      * This is called when the Rave class is initialized
      * */
-    function onInit($initializationData) {
+    public function onInit($initializationData)
+    {
         // Save the transaction to your DB.
     }
 
     /**
      * This is called only when a transaction is successful
      * */
-    function onSuccessful($transactionData){
+    public function onSuccessful($transactionData)
+    {
         // Get the transaction from your DB using the transaction reference (txref)
         // Check if you have previously given value for the transaction. If you have, redirect to your successpage else, continue
         // Comfirm that the transaction is successful
@@ -32,48 +35,51 @@ class virtualCardEventHandler implements EventHandlerInterface{
     /**
      * This is called only when a transaction failed
      * */
-    function onFailure($transactionData){
+    public function onFailure($transactionData)
+    {
         // Get the transaction from your DB using the transaction reference (txref)
         // Update the db transaction record (includeing parameters that didn't exist before the transaction is completed. for audit purpose)
         // You can also redirect to your failure page from here
-
     }
 
     /**
      * This is called when a transaction is requeryed from the payment gateway
      * */
-    function onRequery($transactionReference){
+    public function onRequery($transactionReference)
+    {
         // Do something, anything!
     }
 
     /**
      * This is called a transaction requery returns with an error
      * */
-    function onRequeryError($requeryResponse){
+    public function onRequeryError($requeryResponse)
+    {
         // Do something, anything!
     }
 
     /**
      * This is called when a transaction is canceled by the user
      * */
-    function onCancel($transactionReference){
+    public function onCancel($transactionReference)
+    {
         // Do something, anything!
         // Note: Somethings a payment can be successful, before a user clicks the cancel button so proceed with caution
-
     }
 
     /**
      * This is called when a transaction doesn't return with a success or a failure response. This can be a timedout transaction on the Rave server or an abandoned transaction by the customer.
      * */
-    function onTimeout($transactionReference, $data){
+    public function onTimeout($transactionReference, $data)
+    {
         // Get the transaction from your DB using the transaction reference (txref)
         // Queue it for requery. Preferably using a queue system. The requery should be about 15 minutes after.
         // Ask the customer to contact your support and you should escalate this issue to the flutterwave support team. Send this as an email and as a notification on the page. just incase the page timesout or disconnects
-
     }
 }
 
-class VirtualCard {
+class VirtualCard
+{
     protected $handler;
 
     /**
@@ -81,7 +87,8 @@ class VirtualCard {
      * @param object $handler This is a class that implements the Event Handler Interface
      * @return object
      * */
-    function eventHandler($handler){
+    public function eventHandler($handler)
+    {
         $this->handler = $handler;
         return $this;
     }
@@ -90,7 +97,8 @@ class VirtualCard {
      * Gets the event hooks for all available triggers
      * @return object
      * */
-    function getEventHandler(){
+    public function getEventHandler()
+    {
         if ($this->handler) {
             return $this->handler;
         }
@@ -99,9 +107,10 @@ class VirtualCard {
     }
 
     //create card function
-    function createCard($array){
+    public function createCard($array)
+    {
         //set the endpoint for the api call
-        if(!isset($array['currency']) || !isset($array['amount']) || !isset($array['billing_name'])){
+        if (!isset($array['currency']) || !isset($array['amount']) || !isset($array['billing_name'])) {
             throw new \Exception("Please pass the required values for currency, duration and amount", 1);
         }
 
@@ -114,9 +123,9 @@ class VirtualCard {
     }
 
     //get the detials of a card using the card id
-    function getCard($array){
-
-        if(!isset($array['id'])){
+    public function getCard($array)
+    {
+        if (!isset($array['id'])) {
             throw new \Exception("Please pass the required value for id", 1);
         }
 
@@ -126,11 +135,11 @@ class VirtualCard {
         ->setEndPoint("v3/virtual-cards/".$array['id']);
 
         return Rave::vcGetRequest();
-
     }
 
     //list all the virtual cards on your profile
-    function listCards(){
+    public function listCards()
+    {
 
         //set the payment handler
         Rave::eventHandler($this->getEventHandler())
@@ -138,13 +147,12 @@ class VirtualCard {
         ->setEndPoint("v3/virtual-cards/");
 
         return Rave::vcGetRequest();
-
     }
 
     //terminate a virtual card on your profile
-    function terminateCard($array){
-
-        if(!isset($array['id'])){
+    public function terminateCard($array)
+    {
+        if (!isset($array['id'])) {
             throw new \Exception("Please pass the required value for id", 1);
         }
 
@@ -154,17 +162,17 @@ class VirtualCard {
         ->setEndPoint("v3/virtual-cards/".$array['id']."/terminate");
 
         return Rave::vcPutRequest();
-
     }
 
     //fund a virtual card
-    function fundCard($array){
+    public function fundCard($array)
+    {
         //set the endpoint for the api call
-        if(gettype($array['amount']) !== 'integer'){
+        if (gettype($array['amount']) !== 'integer') {
             $array['amount'] = (int) $array['amount'];
         }
 
-        if(!isset($array['currency'])){
+        if (!isset($array['currency'])) {
             $array['currency'] = 'NGN';
         }
 
@@ -182,7 +190,8 @@ class VirtualCard {
     }
 
     // list card transactions
-    function cardTransactions($array){
+    public function cardTransactions($array)
+    {
 
         //set the payment handler
         Rave::eventHandler($this->getEventHandler())
@@ -193,9 +202,10 @@ class VirtualCard {
     }
 
     //withdraw funds from card
-    function cardWithdrawal($array){
+    public function cardWithdrawal($array)
+    {
         //set the endpoint for the api call
-        if(!isset($array['amount'])){
+        if (!isset($array['amount'])) {
             throw new \Exception("Please pass the required value for amount", 1);
         }
 
@@ -207,8 +217,9 @@ class VirtualCard {
         return  Rave::vcPostRequest($array);
     }
 
-    function block_unblock_card($array){
-        if(!isset($array['id']) || !isset($array['status_action'])){
+    public function block_unblock_card($array)
+    {
+        if (!isset($array['id']) || !isset($array['status_action'])) {
             throw new \Exception("Please pass the required value for id and status_action", 1);
         }
 
@@ -219,5 +230,4 @@ class VirtualCard {
 
         return Rave::vcPutRequest();
     }
-
 }

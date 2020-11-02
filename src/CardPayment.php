@@ -5,11 +5,13 @@ namespace Laravel\Flutterwave;
 use Laravel\Flutterwave\Rave;
 use Laravel\Flutterwave\EventHandlerInterface;
 
-class cardEventHandler implements EventHandlerInterface{
+class cardEventHandler implements EventHandlerInterface
+{
     /**
      * This is called when the Rave class is initialized
      * */
-    function onInit($initializationData) {
+    public function onInit($initializationData)
+    {
         // Save the transaction to your DB.
     }
 
@@ -17,7 +19,8 @@ class cardEventHandler implements EventHandlerInterface{
      * This is called only when a transaction is successful
      * @param array
      * */
-    function onSuccessful($transactionData){
+    public function onSuccessful($transactionData)
+    {
         // Get the transaction from your DB using the transaction reference (txref)
         // Check if you have previously given value for the transaction. If you have, redirect to your successpage else, continue
         // Comfirm that the transaction is successful
@@ -28,62 +31,66 @@ class cardEventHandler implements EventHandlerInterface{
         // Give value for the transaction
         // Update the transaction to note that you have given value for the transaction
         // You can also redirect to your success page from here
-        if($transactionData["data"]["chargecode"] === '00' || $transactionData["data"]["chargecode"] === '0'){
+        if ($transactionData["data"]["chargecode"] === '00' || $transactionData["data"]["chargecode"] === '0') {
             echo "Transaction Completed";
-        }else{
-          $this->onFailure($transactionData);
-      }
+        } else {
+            $this->onFailure($transactionData);
+        }
     }
 
     /**
      * This is called only when a transaction failed
      * */
-    function onFailure($transactionData){
+    public function onFailure($transactionData)
+    {
         // Get the transaction from your DB using the transaction reference (txref)
         // Update the db transaction record (includeing parameters that didn't exist before the transaction is completed. for audit purpose)
         // You can also redirect to your failure page from here
-
     }
 
     /**
      * This is called when a transaction is requeryed from the payment gateway
      * */
-    function onRequery($transactionReference){
+    public function onRequery($transactionReference)
+    {
         // Do something, anything!
     }
 
     /**
      * This is called a transaction requery returns with an error
      * */
-    function onRequeryError($requeryResponse){
+    public function onRequeryError($requeryResponse)
+    {
         // Do something, anything!
     }
 
     /**
      * This is called when a transaction is canceled by the user
      * */
-    function onCancel($transactionReference){
+    public function onCancel($transactionReference)
+    {
         // Do something, anything!
         // Note: Somethings a payment can be successful, before a user clicks the cancel button so proceed with caution
-
     }
 
     /**
      * This is called when a transaction doesn't return with a success or a failure response. This can be a timedout transaction on the Rave server or an abandoned transaction by the customer.
      * */
-    function onTimeout($transactionReference, $data){
+    public function onTimeout($transactionReference, $data)
+    {
         // Get the transaction from your DB using the transaction reference (txref)
         // Queue it for requery. Preferably using a queue system. The requery should be about 15 minutes after.
         // Ask the customer to contact your support and you should escalate this issue to the flutterwave support team. Send this as an email and as a notification on the page. just incase the page timesout or disconnects
-
     }
 }
 
-class Card {
+class Card
+{
     protected $payment;
     protected $handler;
 
-    function __construct(){
+    public function __construct()
+    {
         $secret_key = config('flutterwave.secret_key');
         $prefix = config('app.name');
 
@@ -96,7 +103,8 @@ class Card {
      * @param object $handler This is a class that implements the Event Handler Interface
      * @return object
      * */
-    function eventHandler($handler){
+    public function eventHandler($handler)
+    {
         $this->handler = $handler;
         return $this;
     }
@@ -105,7 +113,8 @@ class Card {
      * Gets the event hooks for all available triggers
      * @return object
      * */
-    function getEventHandler(){
+    public function getEventHandler()
+    {
         if ($this->handler) {
             return $this->handler;
         }
@@ -113,11 +122,11 @@ class Card {
         return new cardEventHandler;
     }
 
-    function cardCharge($array){
-
-        if(!isset($array['tx_ref']) || empty($array['tx_ref'])){
+    public function cardCharge($array)
+    {
+        if (!isset($array['tx_ref']) || empty($array['tx_ref'])) {
             $array['tx_ref'] = $this->payment->txref;
-        }else{
+        } else {
             $this->payment->txref = $array['tx_ref'];
         }
 
@@ -131,24 +140,26 @@ class Card {
         return $this->payment->chargePayment($array);
     }
 
-     /**
-      * you will need to validate and verify the charge
-      * Validating the charge will require an otp
-      * After validation then verify the charge with the txRef
-      * You can write out your function to execute when the verification is successful in the onSuccessful function
-     ***/
-    function validateTransaction($element, $ref){
-         //validate the charge
+    /**
+     * you will need to validate and verify the charge
+     * Validating the charge will require an otp
+     * After validation then verify the charge with the txRef
+     * You can write out your function to execute when the verification is successful in the onSuccessful function
+    ***/
+    public function validateTransaction($element, $ref)
+    {
+        //validate the charge
         return $this->payment->validateTransaction($element, $ref, $this->payment->type);
     }
 
-    function return_txref(){
+    public function return_txref()
+    {
         return $this->payment->txref;
     }
 
-    function verifyTransaction($id){
+    public function verifyTransaction($id)
+    {
         //verify the charge
         return $this->payment->verifyTransaction($id);
     }
-
 }

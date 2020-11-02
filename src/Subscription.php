@@ -5,18 +5,21 @@ namespace Laravel\Flutterwave;
 use Laravel\Flutterwave\Facade\Rave;
 use Laravel\Flutterwave\EventHandlerInterface;
 
-class subscriptionEventHandler implements EventHandlerInterface{
+class subscriptionEventHandler implements EventHandlerInterface
+{
     /**
      * This is called when the Rave class is initialized
      * */
-    function onInit($initializationData) {
+    public function onInit($initializationData)
+    {
         // Save the transaction to your DB.
     }
 
     /**
      * This is called only when a transaction is successful
      * */
-    function onSuccessful($transactionData){
+    public function onSuccessful($transactionData)
+    {
         // Get the transaction from your DB using the transaction reference (txref)
         // Check if you have previously given value for the transaction. If you have, redirect to your successpage else, continue
         // Comfirm that the transaction is successful
@@ -32,49 +35,52 @@ class subscriptionEventHandler implements EventHandlerInterface{
     /**
      * This is called only when a transaction failed
      * */
-    function onFailure($transactionData){
+    public function onFailure($transactionData)
+    {
         // Get the transaction from your DB using the transaction reference (txref)
         // Update the db transaction record (includeing parameters that didn't exist before the transaction is completed. for audit purpose)
         // You can also redirect to your failure page from here
-
     }
 
     /**
      * This is called when a transaction is requeryed from the payment gateway
      * */
-    function onRequery($transactionReference){
+    public function onRequery($transactionReference)
+    {
         // Do something, anything!
     }
 
     /**
      * This is called a transaction requery returns with an error
      * */
-    function onRequeryError($requeryResponse){
+    public function onRequeryError($requeryResponse)
+    {
         // Do something, anything!
     }
 
     /**
      * This is called when a transaction is canceled by the user
      * */
-    function onCancel($transactionReference){
+    public function onCancel($transactionReference)
+    {
         // Do something, anything!
         // Note: Somethings a payment can be successful, before a user clicks the cancel button so proceed with caution
-
     }
 
     /**
      * This is called when a transaction doesn't return with a success or a failure response. This can be a timedout transaction on the Rave server or an abandoned transaction by the customer.
      * */
-    function onTimeout($transactionReference, $data){
+    public function onTimeout($transactionReference, $data)
+    {
         // Get the transaction from your DB using the transaction reference (txref)
         // Queue it for requery. Preferably using a queue system. The requery should be about 15 minutes after.
         // Ask the customer to contact your support and you should escalate this issue to the flutterwave support team. Send this as an email and as a notification on the page. just incase the page timesout or disconnects
-
     }
 }
 
 
-class Subscription{
+class Subscription
+{
     protected $handler;
 
     /**
@@ -82,7 +88,8 @@ class Subscription{
      * @param object $handler This is a class that implements the Event Handler Interface
      * @return object
      * */
-    function eventHandler($handler){
+    public function eventHandler($handler)
+    {
         $this->handler = $handler;
         return $this;
     }
@@ -91,7 +98,8 @@ class Subscription{
      * Gets the event hooks for all available triggers
      * @return object
      * */
-    function getEventHandler(){
+    public function getEventHandler()
+    {
         if ($this->handler) {
             return $this->handler;
         }
@@ -99,7 +107,8 @@ class Subscription{
         return new subscriptionEventHandler;
     }
 
-    function activateSubscription($id){
+    public function activateSubscription($id)
+    {
         $endPoint = 'v3/subscriptions/'.$id.'/activate';
 
         //set the payment handler
@@ -110,7 +119,8 @@ class Subscription{
         return Rave::activateSubscription();
     }
 
-    function getAllSubscription(){
+    public function getAllSubscription()
+    {
         //set the payment handler
         Rave::eventHandler($this->getEventHandler())
         //set the endpoint for the api call
@@ -119,7 +129,8 @@ class Subscription{
         return Rave::getAllSubscription();
     }
 
-    function cancelSubscription($id){
+    public function cancelSubscription($id)
+    {
         $endPoint = 'v3/subscriptions/'.$id.'/cancel';
 
         //set the payment handler

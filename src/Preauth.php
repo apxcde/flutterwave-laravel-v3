@@ -5,16 +5,19 @@ namespace Laravel\Flutterwave;
 use Laravel\Flutterwave\Rave;
 use Laravel\Flutterwave\EventHandlerInterface;
 
-class preEventHandler implements EventHandlerInterface{
-
+class preEventHandler implements EventHandlerInterface
+{
 }
 
-class Preauth {
-    function __construct(){
+class Preauth
+{
+    public function __construct()
+    {
         $this->preauthPayment =  new Rave();
     }
 
-    function accountCharge($array){
+    public function accountCharge($array)
+    {
         //set the payment handler
         $this->payment->eventHandler(new accountEventHandler)
         //set the endpoint for the api call
@@ -30,7 +33,8 @@ class Preauth {
          ***/
     }
 
-    function captureFunds($array){
+    public function captureFunds($array)
+    {
         //set the payment handler
         $this->plan->eventHandler(new preEventHandler)
         //set the endpoint for the api call
@@ -39,15 +43,14 @@ class Preauth {
         return $this->plan->captureFunds($array);
     }
 
-    function refundOrVoid($array){
+    public function refundOrVoid($array)
+    {
 
          //set the payment handler
-         $this->plan->eventHandler(new preEventHandler)
+        $this->plan->eventHandler(new preEventHandler)
          //set the endpoint for the api call
          ->setEndPoint("flwv3-pug/getpaidx/api/refundorvoid");
-         //returns the value from the results
-         return $this->plan->refundOrVoid($array);
-
+        //returns the value from the results
+        return $this->plan->refundOrVoid($array);
     }
-
 }

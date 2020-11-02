@@ -5,11 +5,13 @@ namespace Laravel\Flutterwave;
 use Laravel\Flutterwave\Rave;
 use Laravel\Flutterwave\EventHandlerInterface;
 
-class transferEventHandler implements EventHandlerInterface{
+class transferEventHandler implements EventHandlerInterface
+{
     /**
      * This is called when the Rave class is initialized
      * */
-    function onInit($initializationData) {
+    public function onInit($initializationData)
+    {
         // Save the transaction to your DB.
     }
 
@@ -17,7 +19,8 @@ class transferEventHandler implements EventHandlerInterface{
      * This is called only when a transaction is successful
      * @param array
      * */
-    function onSuccessful($transactionData){
+    public function onSuccessful($transactionData)
+    {
         // Get the transaction from your DB using the transaction reference (txref)
         // Check if you have previously given value for the transaction. If you have, redirect to your successpage else, continue
         // Comfirm that the transaction is successful
@@ -33,52 +36,56 @@ class transferEventHandler implements EventHandlerInterface{
     /**
      * This is called only when a transaction failed
      * */
-    function onFailure($transactionData){
+    public function onFailure($transactionData)
+    {
         // Get the transaction from your DB using the transaction reference (txref)
         // Update the db transaction record (includeing parameters that didn't exist before the transaction is completed. for audit purpose)
         // You can also redirect to your failure page from here
-
     }
 
     /**
      * This is called when a transaction is requeryed from the payment gateway
      * */
-    function onRequery($transactionReference){
+    public function onRequery($transactionReference)
+    {
         // Do something, anything!
     }
 
     /**
      * This is called a transaction requery returns with an error
      * */
-    function onRequeryError($requeryResponse){
+    public function onRequeryError($requeryResponse)
+    {
         // Do something, anything!
     }
 
     /**
      * This is called when a transaction is canceled by the user
      * */
-    function onCancel($transactionReference){
+    public function onCancel($transactionReference)
+    {
         // Do something, anything!
         // Note: Somethings a payment can be successful, before a user clicks the cancel button so proceed with caution
-
     }
 
     /**
      * This is called when a transaction doesn't return with a success or a failure response. This can be a timedout transaction on the Rave server or an abandoned transaction by the customer.
      * */
-    function onTimeout($transactionReference, $data){
+    public function onTimeout($transactionReference, $data)
+    {
         // Get the transaction from your DB using the transaction reference (txref)
         // Queue it for requery. Preferably using a queue system. The requery should be about 15 minutes after.
         // Ask the customer to contact your support and you should escalate this issue to the flutterwave support team. Send this as an email and as a notification on the page. just incase the page timesout or disconnects
-
     }
 }
 
-class Transfer {
+class Transfer
+{
     protected $transfer;
     protected $handler;
 
-    function __construct(){
+    public function __construct()
+    {
         $secret_key = config('flutterwave.secret_key');
         $prefix = config('app.name');
 
@@ -90,7 +97,8 @@ class Transfer {
      * @param object $handler This is a class that implements the Event Handler Interface
      * @return object
      * */
-    function eventHandler($handler){
+    public function eventHandler($handler)
+    {
         $this->handler = $handler;
         return $this;
     }
@@ -99,7 +107,8 @@ class Transfer {
      * Gets the event hooks for all available triggers
      * @return object
      * */
-    function getEventHandler(){
+    public function getEventHandler()
+    {
         if ($this->handler) {
             return $this->handler;
         }
@@ -111,7 +120,8 @@ class Transfer {
      * initiating a single transfer
      * @return object
      * */
-    function singleTransfer($array){
+    public function singleTransfer($array)
+    {
         //set the payment handler
         $this->transfer->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
@@ -120,11 +130,12 @@ class Transfer {
         return $this->transfer->transferSingle($array);
     }
 
-     /**
-      * initiating a bulk transfer
-      * @return object
-      * */
-    function bulkTransfer($array){
+    /**
+     * initiating a bulk transfer
+     * @return object
+     * */
+    public function bulkTransfer($array)
+    {
         //set the payment handler
         $this->transfer->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
@@ -133,7 +144,8 @@ class Transfer {
         return $this->transfer->transferBulk($array);
     }
 
-    function listTransfers($array = array('url'=>'blank')){
+    public function listTransfers($array = array('url'=>'blank'))
+    {
 
         //set the payment handler
         $this->transfer->eventHandler($this->getEventHandler())
@@ -141,10 +153,10 @@ class Transfer {
         ->setEndPoint("v3/transfers");
 
         return $this->transfer->listTransfers($array);
-
     }
 
-    function bulkTransferStatus($array){
+    public function bulkTransferStatus($array)
+    {
 
         //set the payment handler
         $this->transfer->eventHandler($this->getEventHandler())
@@ -154,21 +166,22 @@ class Transfer {
         return $this->transfer->bulkTransferStatus($array);
     }
 
-    function getTransferFee($array){
-
-        if(in_array('amount', $array) && gettype($array['amount']) !== "string"){
+    public function getTransferFee($array)
+    {
+        if (in_array('amount', $array) && gettype($array['amount']) !== "string") {
             $array['amount'] = (string) $array['amount'];
         }
 
-         //set the payment handler
-         $this->transfer->eventHandler($this->getEventHandler())
+        //set the payment handler
+        $this->transfer->eventHandler($this->getEventHandler())
          //set the endpoint for the api call
          ->setEndPoint("v3/transfers/fee");
 
-         return $this->transfer->applicableFees($array);
+        return $this->transfer->applicableFees($array);
     }
 
-    function getBanksForTransfer($data = array("country" => 'NG')){
+    public function getBanksForTransfer($data = array("country" => 'NG'))
+    {
 
         //set the payment handler
         $his->transfer->eventHandler($this->getEventHandler())
@@ -178,9 +191,9 @@ class Transfer {
         return $this->transfer->getBanksForTransfer();
     }
 
-    function verifyTransaction(){
+    public function verifyTransaction()
+    {
         //verify the charge
         return $this->transfer->verifyTransaction($this->transfer->txref);
     }
-
 }

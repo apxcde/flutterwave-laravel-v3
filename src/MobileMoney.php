@@ -5,11 +5,13 @@ namespace Laravel\Flutterwave;
 use Laravel\Flutterwave\Rave;
 use Laravel\Flutterwave\EventHandlerInterface;
 
-class momoEventHandler implements EventHandlerInterface{
+class momoEventHandler implements EventHandlerInterface
+{
     /**
      * This is called when the Rave class is initialized
      * */
-    function onInit($initializationData) {
+    public function onInit($initializationData)
+    {
         // Save the transaction to your DB.
     }
 
@@ -17,7 +19,8 @@ class momoEventHandler implements EventHandlerInterface{
      * This is called only when a transaction is successful
      * @param array
      * */
-    function onSuccessful($transactionData){
+    public function onSuccessful($transactionData)
+    {
         // Get the transaction from your DB using the transaction reference (txref)
         // Check if you have previously given value for the transaction. If you have, redirect to your successpage else, continue
         // Comfirm that the transaction is successful
@@ -28,62 +31,66 @@ class momoEventHandler implements EventHandlerInterface{
         // Give value for the transaction
         // Update the transaction to note that you have given value for the transaction
         // You can also redirect to your success page from here
-        if($transactionData["data"]["chargecode"] === '00' || $transactionData["data"]["chargecode"] === '0'){
+        if ($transactionData["data"]["chargecode"] === '00' || $transactionData["data"]["chargecode"] === '0') {
             echo "Transaction Completed";
-        }else{
-          $this->onFailure($transactionData);
-      }
+        } else {
+            $this->onFailure($transactionData);
+        }
     }
 
     /**
      * This is called only when a transaction failed
      * */
-    function onFailure($transactionData){
+    public function onFailure($transactionData)
+    {
         // Get the transaction from your DB using the transaction reference (txref)
         // Update the db transaction record (includeing parameters that didn't exist before the transaction is completed. for audit purpose)
         // You can also redirect to your failure page from here
-
     }
 
     /**
      * This is called when a transaction is requeryed from the payment gateway
      * */
-    function onRequery($transactionReference){
+    public function onRequery($transactionReference)
+    {
         // Do something, anything!
     }
 
     /**
      * This is called a transaction requery returns with an error
      * */
-    function onRequeryError($requeryResponse){
+    public function onRequeryError($requeryResponse)
+    {
         // Do something, anything!
     }
 
     /**
      * This is called when a transaction is canceled by the user
      * */
-    function onCancel($transactionReference){
+    public function onCancel($transactionReference)
+    {
         // Do something, anything!
         // Note: Somethings a payment can be successful, before a user clicks the cancel button so proceed with caution
-
     }
 
     /**
      * This is called when a transaction doesn't return with a success or a failure response. This can be a timedout transaction on the Rave server or an abandoned transaction by the customer.
      * */
-    function onTimeout($transactionReference, $data){
+    public function onTimeout($transactionReference, $data)
+    {
         // Get the transaction from your DB using the transaction reference (txref)
         // Queue it for requery. Preferably using a queue system. The requery should be about 15 minutes after.
         // Ask the customer to contact your support and you should escalate this issue to the flutterwave support team. Send this as an email and as a notification on the page. just incase the page timesout or disconnects
-
     }
 }
 
-class MobileMoney {
+class MobileMoney
+{
     protected $payment;
     protected $handler;
 
-    function __construct(){
+    public function __construct()
+    {
         $secret_key = config('flutterwave.secret_key');
         $prefix = config('app.name');
 
@@ -96,7 +103,8 @@ class MobileMoney {
      * @param object $handler This is a class that implements the Event Handler Interface
      * @return object
      * */
-    function eventHandler($handler){
+    public function eventHandler($handler)
+    {
         $this->handler = $handler;
         return $this;
     }
@@ -105,7 +113,8 @@ class MobileMoney {
      * Gets the event hooks for all available triggers
      * @return object
      * */
-    function getEventHandler(){
+    public function getEventHandler()
+    {
         if ($this->handler) {
             return $this->handler;
         }
@@ -113,15 +122,16 @@ class MobileMoney {
         return new momoEventHandler;
     }
 
-    function mobilemoney($array){
+    public function mobilemoney($array)
+    {
         //add tx_ref to the paylaod
         //add tx_ref to the paylaod
-        if(!isset($array['tx_ref']) || empty($array['tx_ref'])){
+        if (!isset($array['tx_ref']) || empty($array['tx_ref'])) {
             $array['tx_ref'] = $this->payment->txref;
         }
 
         $this->payment->type = 'momo';
-        if(!in_array($array['type'], $this->type, true)){
+        if (!in_array($array['type'], $this->type, true)) {
             throw new \Exception("The Type specified in the payload is not {$this->type[0]}, {$this->type[1]}, {$this->type[2]}, {$this->type[3]} or {$this->type[4]}", 1);
         }
 
@@ -158,16 +168,15 @@ class MobileMoney {
         ->setEndPoint("v3/charges?type=".$this->type);
         //returns the value from the results
         return $this->payment->chargePayment($array);
-
     }
 
     /**you will need to verify the charge
      * After validation then verify the charge with the txRef
      * You can write out your function to execute when the verification is successful in the onSuccessful function
     ***/
-    function verifyTransaction($id){
+    public function verifyTransaction($id)
+    {
         //verify the charge
         return $this->payment->verifyTransaction($id);
     }
-
 }
