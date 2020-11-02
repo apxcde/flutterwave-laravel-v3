@@ -2,17 +2,16 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\Facades\Rave;
-use Laravel\Flutterwave\RaveServiceAbstract;
+use Laravel\Flutterwave\RaveServiceTrait;
 
-class Bill implements RaveServiceAbstract
+class Bill
 {
-    protected $payment;
+    use RaveServiceTrait;
 
     public function __construct()
     {
-        $this->payment = Rave::getRaveInstance();
-        $this->type = array('AIRTIME','DSTV','DSTV BOX OFFICE', 'Postpaid', 'Prepaid', 'AIRTEL', 'IKEDC TOP UP','EKEDC POSTPAID TOPUP', 'EKEDC PREPAID TOPUP', 'LCC', 'KADUNA TOP UP');
+        parent::__construct();
+        $this->type = array('AIRTIME','DSTV','DSTV BOX OFFICE', 'Postpaid', 'Prepaid', 'AIRTEL', 'IKEDC TOP UP', 'EKEDC POSTPAID TOPUP', 'EKEDC PREPAID TOPUP', 'LCC', 'KADUNA TOP UP');
     }
 
     public function payBill($array)
@@ -72,11 +71,12 @@ class Bill implements RaveServiceAbstract
                 break;
         }
 
-        $this->payment->eventHandler($this->getEventHandler())
+        //set the payment handler
+        $this->rave->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
         ->setEndPoint("v3/bills");
 
-        return $this->payment->bill($array);
+        return $this->rave->bill($array);
     }
 
     public function bulkBill($array)
@@ -85,49 +85,52 @@ class Bill implements RaveServiceAbstract
             throw new \Exception("Please Enter the required body parameters for the request", 1);
         }
 
-        $this->payment->eventHandler($this->getEventHandler())
-
+        //set the payment handler
+        $this->rave->eventHandler($this->getEventHandler())
+        //set the endpoint for the api call
         ->setEndPoint('v3/bulk-bills');
 
-        return $this->payment->bulkBills($array);
+        return $this->rave->bulkBills($array);
     }
 
     public function getBill($array)
     {
-        $this->payment->eventHandler($this->getEventHandler());
+        $this->rave->eventHandler($this->getEventHandler());
 
         if (array_key_exists('reference', $array) && !array_key_exists('from', $array)) {
-            $this->payment->setEndPoint('v3/bills/'.$array['reference']);
+            $this->rave->setEndPoint('v3/bills/'.$array['reference']);
         } elseif (array_key_exists('code', $array) && !array_key_exists('customer', $array)) {
-            $this->payment->setEndPoint('v3/bill-items');
+            $this->rave->setEndPoint('v3/bill-items');
         } elseif (array_key_exists('id', $array) && array_key_exists('product_id', $array)) {
-            $this->payment->setEndPoint('v3/billers');
+            $this->rave->setEndPoint('v3/billers');
         } elseif (array_key_exists('from', $array) && array_key_exists('to', $array)) {
             if (isset($array['page']) && isset($array['reference'])) {
-                $this->payment->setEndPoint('v3/bills');
+                $this->rave->setEndPoint('v3/bills');
             } else {
-                $this->payment->setEndPoint('v3/bills');
+                $this->rave->setEndPoint('v3/bills');
             }
         }
 
-        return $this->payment->getBill($array);
+        return $this->rave->getBill($array);
     }
 
     public function getBillCategories()
     {
-        $this->payment->eventHandler($this->getEventHandler())
-
+        //set the payment handler
+        $this->rave->eventHandler($this->getEventHandler())
+        //set the endpoint for the api call
         ->setEndPoint('v3');
 
-        return $this->payment->getBillCategories();
+        return $this->rave->getBillCategories();
     }
 
     public function getAgencies()
     {
-        $this->payment->eventHandler($this->getEventHandler())
-
+        //set the payment handler
+        $this->rave->eventHandler($this->getEventHandler())
+        //set the endpoint for the api call
         ->setEndPoint('v3');
 
-        return $this->payment->getBillers();
+        return $this->rave->getBillers();
     }
 }

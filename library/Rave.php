@@ -260,7 +260,7 @@ class Rave
      * */
     public function setPaymentOptions($paymentOptions)
     {
-        $this->paymentOptions = $paymentOptions;
+        $this->raveOptions = $paymentOptions;
         return $this;
     }
 
@@ -270,7 +270,7 @@ class Rave
      * */
     public function getPaymentOptions()
     {
-        return $this->paymentOptions;
+        return $this->raveOptions;
     }
 
     /**

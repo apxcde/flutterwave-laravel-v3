@@ -2,46 +2,22 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\Facades\Rave;
-use Laravel\Flutterwave\RaveServiceAbstract;
+use Laravel\Flutterwave\RaveServiceTrait;
 
-class Ebill implements RaveServiceAbstract
+class Ebill
 {
-    protected $handler;
+    use RaveServiceTrait;
 
     public function __construct()
     {
+        parent::__construct();
         $this->keys = array('amount', 'phone_number','country', 'ip', 'email');
-    }
-
-    /**
-     * Sets the event hooks for all available triggers
-     * @param object $handler This is a class that implements the Event Handler Interface
-     * @return object
-     * */
-    public function eventHandler($handler)
-    {
-        $this->handler = $handler;
-        return $this;
-    }
-
-    /**
-     * Gets the event hooks for all available triggers
-     * @return object
-     * */
-    public function getEventHandler()
-    {
-        if ($this->handler) {
-            return $this->handler;
-        }
-
-        return new ebillEventHandler;
     }
 
     public function order($array)
     {
         if (!isset($array['tx_ref']) || empty($array['tx_ref'])) {
-            $array['tx_ref'] = $this->payment->getTxRef();
+            $array['tx_ref'] = $this->rave->getTxRef();
         }
 
         if (!isset($array['amount']) || !isset($array['phone_number']) ||
@@ -50,11 +26,11 @@ class Ebill implements RaveServiceAbstract
         }
 
 
-        Rave::eventHandler($this->getEventHandler())
+        $this->rave->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
         ->setEndPoint("v3/ebills");
         //returns the value of the result.
-        return Rave::createOrder($array);
+        return $this->rave->createOrder($array);
     }
 
     public function updateOrder($data)
@@ -67,10 +43,10 @@ class Ebill implements RaveServiceAbstract
             $data['amount'] = (int) $data['amount'];
         }
 
-        Rave::eventHandler($this->getEventHandler())
+        $this->rave->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
         ->setEndPoint("v3/ebills/".$data['reference']);
         //returns the value of the result.
-        return Rave::updateOrder($data);
+        return $this->rave->updateOrder($data);
     }
 }

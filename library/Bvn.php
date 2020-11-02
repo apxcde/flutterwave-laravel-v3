@@ -2,24 +2,18 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\Facades\Rave;
-use Laravel\Flutterwave\RaveServiceAbstract;
+use Laravel\Flutterwave\RaveServiceTrait;
 
-class Bvn implements RaveServiceAbstract
+class Bvn
 {
-    protected $bvn;
-
-    public function __construct()
-    {
-        $this->bvn = Rave::getRaveInstance();
-    }
+    use RaveServiceTrait;
 
     public function verifyBVN($bvn)
     {
         //set the payment handler
-        Rave::eventHandler($this->getEventHandler())
+        $this->rave->eventHandler($this->getEventHandler())
         ->setEndPoint("v3/kyc/bvns");
         //returns the value from the results
-        return Rave::bvn($bvn);
+        return $this->rave->bvn($bvn);
     }
 }

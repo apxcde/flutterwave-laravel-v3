@@ -2,30 +2,22 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\Rave;
-use Laravel\Flutterwave\EventHandlerInterface;
-
-class preEventHandler implements EventHandlerInterface
-{
-}
+use Laravel\Flutterwave\RaveServiceTrait;
 
 class Preauth
 {
-    public function __construct()
-    {
-        $this->preauthPayment =  new Rave();
-    }
+    use RaveServiceTrait;
 
     public function accountCharge($array)
     {
         //set the payment handler
-        $this->payment->eventHandler(new accountEventHandler)
+        $this->rave->eventHandler(new accountEventHandler)
         //set the endpoint for the api call
         ->setEndPoint("");
         //returns the value from the results
         //you can choose to store the returned value in a variable and validate within this function
-        $this->payment->setAuthModel("AUTH");
-        return $this->payment->chargePayment($array);
+        $this->rave->setAuthModel("AUTH");
+        return $this->rave->chargePayment($array);
         /**you will need to validate and verify the charge
          * Validating the charge will require an otp
          * After validation then verify the charge with the txRef
@@ -36,21 +28,20 @@ class Preauth
     public function captureFunds($array)
     {
         //set the payment handler
-        $this->plan->eventHandler(new preEventHandler)
+        $this->rave->eventHandler(new preEventHandler)
         //set the endpoint for the api call
         ->setEndPoint("flwv3-pug/getpaidx/api/capture");
         //returns the value from the results
-        return $this->plan->captureFunds($array);
+        return $this->rave->captureFunds($array);
     }
 
     public function refundOrVoid($array)
     {
-
-         //set the payment handler
-        $this->plan->eventHandler(new preEventHandler)
-         //set the endpoint for the api call
-         ->setEndPoint("flwv3-pug/getpaidx/api/refundorvoid");
+        //set the payment handler
+        $this->rave->eventHandler(new preEventHandler)
+        //set the endpoint for the api call
+        ->setEndPoint("flwv3-pug/getpaidx/api/refundorvoid");
         //returns the value from the results
-        return $this->plan->refundOrVoid($array);
+        return $this->rave->refundOrVoid($array);
     }
 }

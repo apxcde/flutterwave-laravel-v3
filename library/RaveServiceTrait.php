@@ -4,7 +4,7 @@ namespace Laravel\Flutterwave;
 
 use Laravel\Flutterwave\EventHandler;
 
-abstract class RaveServiceAbstract
+trait RaveServiceTrait
 {
     protected $rave;
     protected $handler;
@@ -46,19 +46,4 @@ abstract class RaveServiceAbstract
     {
         return $this->rave;
     }
-
-    // /**
-    //  * Gets the txref ref of the rave instance
-    //  * @return object
-    //  * */
-    // public function setRaveTxRef($tx_ref)
-    // {
-    //     if (!isset($tx_ref) || empty($tx_ref)) {
-    //         $tx_ref = $this->payment->getTxRef();
-    //     } else {
-    //         $this->payment->getTxRef($tx_ref);
-    //     }
-    //
-    //     return $thi;
-    // }
 }

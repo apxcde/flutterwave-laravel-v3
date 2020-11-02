@@ -2,32 +2,28 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\Facades\Rave;
-use Laravel\Flutterwave\RaveServiceAbstract;
+use Laravel\Flutterwave\RaveServiceTrait;
 
-class Card implements RaveServiceAbstract
+class Card
 {
-    protected $payment;
-
-    public function __construct()
-    {
-        $this->payment = Rave::getRaveInstance();
-        $this->valType = "card";
-    }
+    use RaveServiceTrait;
 
     public function cardCharge($array)
     {
-        // set the payment tx_ref
-        $this->setRaveTxRef($array['tx_ref'] ?? null);
+        if (!isset($array['tx_ref']) || empty($array['tx_ref'])) {
+            $array['tx_ref'] = $this->rave->getTxRef();
+        } else {
+            $this->rave->getTxRef($array['tx_ref']);
+        }
 
-        $this->payment->setType('card');
+        $this->rave->setType('card');
         //set the payment handler
-        $this->payment->eventHandler($this->getEventHandler())
+        $this->rave->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
-        ->setEndPoint("v3/charges?type=".$this->payment->getType());
+        ->setEndPoint("v3/charges?type=".$this->rave->getType());
 
         //returns the value from the results
-        return $this->payment->chargePayment($array);
+        return $this->rave->chargePayment($array);
     }
 
     /**
@@ -39,12 +35,12 @@ class Card implements RaveServiceAbstract
     public function validateTransaction($element, $ref)
     {
         //validate the charge
-        return $this->payment->validateTransaction($element, $ref, $this->payment->getType());
+        return $this->rave->validateTransaction($element, $ref, $this->rave->getType());
     }
 
     public function verifyTransaction($id)
     {
         //verify the charge
-        return $this->payment->verifyTransaction($id);
+        return $this->rave->verifyTransaction($id);
     }
 }

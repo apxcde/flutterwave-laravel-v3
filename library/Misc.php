@@ -8,8 +8,8 @@ class Misc
 {
     public function getBalances()
     {
-        Rave::setEndPoint("v3/balances");
-        return Rave::getTransferBalance($array);
+        return Rave::setEndPoint("v3/balances")
+                ->getTransferBalance($array);
     }
 
     public function getBalance($array)
@@ -18,13 +18,13 @@ class Misc
             $array['currency'] = 'NGN';
         }
 
-        Rave::setEndPoint("v3/balances/".$array['currency']);
-        return Rave::getTransferBalance($array);
+        return Rave::setEndPoint("v3/balances/".$array['currency'])
+                ->Rave::getTransferBalance($array);
     }
 
     public function verifyAccount($array)
     {
-        Rave::setEndPoint("v3/accounts/resolve");
-        return Rave::verifyAccount($array);
+        return Rave::setEndPoint("v3/accounts/resolve")
+                ->Rave::verifyAccount($array);
     }
 }

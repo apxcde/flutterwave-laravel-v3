@@ -2,27 +2,25 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\Facades\Rave;
-use Laravel\Flutterwave\RaveServiceAbstract;
+use Laravel\Flutterwave\RaveServiceTrait;
 
-class Account implements RaveServiceAbstract
+class Account
 {
-    protected $payment;
+    use RaveServiceTrait;
 
     public function __construct()
     {
-        $this->payment = Rave::getRaveInstance();
+        parent::__construct();
         $this->type = array('debit_uk_account','debit_ng_account');
-        $this->valType = "account";
     }
 
     public function accountCharge($array)
     {
         //add tx_ref to the paylaod
         if (!isset($array['tx_ref']) || empty($array['tx_ref'])) {
-            $array['tx_ref'] = $this->payment->getTxRef();
+            $array['tx_ref'] = $this->rave->getTxRef();
         } else {
-            $this->payment->setTxRef($array['tx_ref']);
+            $this->rave->setTxRef($array['tx_ref']);
         }
 
         if (!in_array($array['type'], $this->type)) {
@@ -30,29 +28,29 @@ class Account implements RaveServiceAbstract
         }
 
         //set the payment handler
-        $this->payment->eventHandler($this->getEventHandler());
+        $this->rave->eventHandler($this->getEventHandler());
         //set the endpoint for the api call
         if ($this->type === $this->type[0]) {
-            $this->payment->setEndPoint("v3/charges?type=debit_uk_account");
+            $this->rave->setEndPoint("v3/charges?type=debit_uk_account");
         } else {
-            $this->payment->setEndPoint("v3/charges?type=debit_ng_account");
+            $this->rave->setEndPoint("v3/charges?type=debit_ng_account");
         }
 
 
-        return $this->payment->chargePayment($array);
+        return $this->rave->chargePayment($array);
     }
 
     public function validateTransaction($otp, $ref)
     {
         //validate the charge
-        $this->payment->eventHandler($this->getEventHandler());
+        $this->rave->eventHandler($this->getEventHandler());
 
-        return $this->payment->validateTransaction($otp, $ref, $this->payment->getType());
+        return $this->rave->validateTransaction($otp, $ref, $this->rave->getType());
     }
 
     public function verifyTransaction($id)
     {
         //verify the charge
-        return $this->payment->verifyTransaction($id);
+        return $this->rave->verifyTransaction($id);
     }
 }

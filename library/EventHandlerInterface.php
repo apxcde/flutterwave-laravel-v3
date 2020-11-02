@@ -2,9 +2,6 @@
 
 namespace Laravel\Flutterwave;
 
-// Prevent direct access to this class
-//defined('BASEPATH') OR exit('No direct script access allowed');
-
 /**
  * Implement this interface to set triggers for transaction event on Rave.
  * An event can be triggered when a Rave initializes a transaction, When a

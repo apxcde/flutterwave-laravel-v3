@@ -2,40 +2,35 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\Facades\Rave;
-use Laravel\Flutterwave\RaveServiceAbstract;
+use Laravel\Flutterwave\RaveServiceTrait;
 
-class Ach implements RaveServiceAbstract
+class Ach
 {
-    protected $payment;
-
-    public function __construct()
-    {
-        $this->payment = Rave::getRaveInstance();
-    }
+    use RaveServiceTrait;
 
     public function achCharge($array)
     {
         if (!isset($array['tx_ref']) || empty($array['tx_ref'])) {
-            $array['tx_ref'] = $this->payment->getTxRef();
+            $array['tx_ref'] = $this->rave->getTxRef();
         } else {
-            $this->payment->setTxRef($array['tx_ref']);
+            $this->rave->setTxRef($array['tx_ref']);
         }
 
-        $this->payment->setType('ach_payment');
+        $this->rave->setType('ach_payment');
+
         //set the payment handler
-        $this->payment->eventHandler($this->getEventHandler())
+        $this->rave->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
-        ->setEndPoint("v3/charges?type=".$this->payment->getType());
+        ->setEndPoint("v3/charges?type=".$this->rave->getType());
 
         //returns the value from the results
-        return $this->payment->chargePayment($array);
+        return $this->rave->chargePayment($array);
     }
 
 
     public function verifyTransaction($id)
     {
         //verify the charge
-        return $this->payment->verifyTransaction($id);
+        return $this->rave->verifyTransaction($id);
     }
 }
