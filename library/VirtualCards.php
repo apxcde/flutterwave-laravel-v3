@@ -2,12 +2,10 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class VirtualCard
+class VirtualCard extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     //create card function
     public function createCard($array)
     {

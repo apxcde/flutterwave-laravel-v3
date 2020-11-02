@@ -2,12 +2,10 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class Bvn
+class Bvn extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     public function verifyBVN($bvn)
     {
         //set the payment handler

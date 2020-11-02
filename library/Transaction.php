@@ -2,12 +2,10 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class Transaction
+class Transaction extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     public function viewTransactions()
     {
         //set the payment handler

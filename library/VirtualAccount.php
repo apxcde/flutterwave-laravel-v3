@@ -2,20 +2,16 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class VirtualAccount
+class VirtualAccount extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     /**
      * Creating the VirtualAccount
      */
-
     public function createvirtualAccount($userdata)
     {
-        if (!isset($userdata['email']) || !isset($userdata['duration']) || !isset($userdata['frequency'])
-        || !isset($userdata['amount'])) {
+        if (!isset($userdata['email']) || !isset($userdata['duration']) || !isset($userdata['frequency']) || !isset($userdata['amount'])) {
             throw new \Exception("The following body params are required: email, duration, frequency, or amount", 1);
         }
 

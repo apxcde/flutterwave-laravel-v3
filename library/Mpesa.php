@@ -2,12 +2,10 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class Mpesa
+class Mpesa extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     public function mpesa($array)
     {
         //add tx_ref to the paylaod

@@ -2,12 +2,10 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class Ebill
+class Ebill extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     public function __construct()
     {
         parent::__construct();

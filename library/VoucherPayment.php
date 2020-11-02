@@ -2,12 +2,10 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class VoucherPayment
+class VoucherPayment extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     public function voucher($array)
     {
         //add tx_ref to the paylaod

@@ -2,12 +2,10 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class Subscription
+class Subscription extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     public function activateSubscription($id)
     {
         $endPoint = 'v3/subscriptions/'.$id.'/activate';

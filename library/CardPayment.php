@@ -2,12 +2,10 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class Card
+class Card extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     public function cardCharge($array)
     {
         if (!isset($array['tx_ref']) || empty($array['tx_ref'])) {

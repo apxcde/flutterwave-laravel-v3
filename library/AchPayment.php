@@ -2,12 +2,10 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class Ach
+class Ach extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     public function achCharge($array)
     {
         if (!isset($array['tx_ref']) || empty($array['tx_ref'])) {

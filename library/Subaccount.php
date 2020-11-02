@@ -1,12 +1,10 @@
 <?php
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class Subaccount
+class Subaccount extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     public function createSubaccount($array)
     {
         //set the payment handler

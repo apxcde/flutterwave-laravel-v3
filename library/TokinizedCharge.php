@@ -2,12 +2,10 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class TokinizedCharge
+class TokinizedCharge extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     public function tokenCharge($array)
     {
 

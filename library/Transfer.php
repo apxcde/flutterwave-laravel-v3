@@ -2,12 +2,10 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class Transfer
+class Transfer extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     /**
      * initiating a single transfer
      * @return object
@@ -15,11 +13,11 @@ class Transfer
     public function singleTransfer($array)
     {
         //set the payment handler
-        $this->transfer->eventHandler($this->getEventHandler())
+        $this->rave->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
         ->setEndPoint("v3/transfers");
         //returns the value from the results
-        return $this->transfer->transferSingle($array);
+        return $this->rave->transferSingle($array);
     }
 
     /**
@@ -29,31 +27,31 @@ class Transfer
     public function bulkTransfer($array)
     {
         //set the payment handler
-        $this->transfer->eventHandler($this->getEventHandler())
+        $this->rave->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
         ->setEndPoint("v3/bulk-transfers");
         //returns the value from the results
-        return $this->transfer->transferBulk($array);
+        return $this->rave->transferBulk($array);
     }
 
     public function listTransfers($array = array('url'=>'blank'))
     {
         //set the payment handler
-        $this->transfer->eventHandler($this->getEventHandler())
+        $this->rave->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
         ->setEndPoint("v3/transfers");
 
-        return $this->transfer->listTransfers($array);
+        return $this->rave->listTransfers($array);
     }
 
     public function bulkTransferStatus($array)
     {
         //set the payment handler
-        $this->transfer->eventHandler($this->getEventHandler())
+        $this->rave->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
         ->setEndPoint("v3/bulk-transfers");
 
-        return $this->transfer->bulkTransferStatus($array);
+        return $this->rave->bulkTransferStatus($array);
     }
 
     public function getTransferFee($array)
@@ -63,11 +61,11 @@ class Transfer
         }
 
         //set the payment handler
-        $this->transfer->eventHandler($this->getEventHandler())
+        $this->rave->eventHandler($this->getEventHandler())
          //set the endpoint for the api call
          ->setEndPoint("v3/transfers/fee");
 
-        return $this->transfer->applicableFees($array);
+        return $this->rave->applicableFees($array);
     }
 
     public function getBanksForTransfer($data)
@@ -81,6 +79,6 @@ class Transfer
         //set the endpoint for the api call
         ->setEndPoint("v2/banks/".$data['country']."/");
 
-        return $this->transfer->getBanksForTransfer();
+        return $this->rave->getBanksForTransfer();
     }
 }

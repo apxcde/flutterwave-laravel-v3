@@ -4,7 +4,7 @@ namespace Laravel\Flutterwave;
 
 use Laravel\Flutterwave\EventHandler;
 
-trait RaveServiceTrait
+abstract class RaveImplementAbstract
 {
     protected $rave;
     protected $handler;

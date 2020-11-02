@@ -19,12 +19,12 @@ class Misc
         }
 
         return Rave::setEndPoint("v3/balances/".$array['currency'])
-                ->Rave::getTransferBalance($array);
+                ->getTransferBalance($array);
     }
 
     public function verifyAccount($array)
     {
         return Rave::setEndPoint("v3/accounts/resolve")
-                ->Rave::verifyAccount($array);
+                ->verifyAccount($array);
     }
 }

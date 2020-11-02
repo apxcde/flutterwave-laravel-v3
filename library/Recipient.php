@@ -2,12 +2,10 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class Recipient
+class Recipient extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     public function createRecipient($array)
     {
         if (!isset($array['account_number']) || !isset($array['account_bank'])) {

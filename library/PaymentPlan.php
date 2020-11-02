@@ -2,12 +2,10 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class PaymentPlan
+class PaymentPlan extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     public function createPlan($array)
     {
         //set the payment handler

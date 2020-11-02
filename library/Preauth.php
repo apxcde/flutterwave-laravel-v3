@@ -2,12 +2,10 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class Preauth
+class Preauth extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     public function accountCharge($array)
     {
         //set the payment handler

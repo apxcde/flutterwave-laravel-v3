@@ -2,12 +2,10 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class Ussd
+class Ussd extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     public function ussd($array)
     {
         $this->rave->setType('ussd');

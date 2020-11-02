@@ -2,12 +2,10 @@
 
 namespace Laravel\Flutterwave;
 
-use Laravel\Flutterwave\RaveServiceTrait;
+use Laravel\Flutterwave\RaveImplementAbstract;
 
-class Settlement
+class Settlement extends RaveImplementAbstract
 {
-    use RaveServiceTrait;
-
     public function fetchSettlement($array)
     {
         if (!isset($array['id'])) {
