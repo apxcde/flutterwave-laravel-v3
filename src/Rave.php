@@ -507,7 +507,7 @@ class Rave {
         // Make `POST` request and handle response with unirest
         $response = Request::get($url, $headers);
 
-        print_r($response);
+        // print_r($response);
 
         //check the status is success
         if ($response->body && $response->body->status === "success") {
@@ -1029,8 +1029,7 @@ class Rave {
         $result  = $this->postURL($array);
         $result = json_decode($result, true);
 
-        print_r($result['meta']);
-        //echo "momo payment";
+        // print_r($result['meta']);
         if(isset($result['meta']['authorization'])){
             header('Location:'.$result['meta']['authorization']['redirect']);
         }
