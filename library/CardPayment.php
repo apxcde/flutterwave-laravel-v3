@@ -95,7 +95,6 @@ class Card
         $prefix = config('app.name');
 
         $this->payment = new Rave($secret_key, $prefix);
-        $this->valType = "card";
     }
 
     /**
@@ -130,11 +129,11 @@ class Card
             $this->payment->txref = $array['tx_ref'];
         }
 
-        $this->payment->type = 'card';
+        $this->payment->setType('card');
         //set the payment handler
         $this->payment->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
-        ->setEndPoint("v3/charges?type=".$this->payment->type);
+        ->setEndPoint("v3/charges?type=".$this->payment->getType());
 
         //returns the value from the results
         return $this->payment->chargePayment($array);
@@ -149,7 +148,7 @@ class Card
     public function validateTransaction($element, $ref)
     {
         //validate the charge
-        return $this->payment->validateTransaction($element, $ref, $this->payment->type);
+        return $this->payment->validateTransaction($element, $ref, $this->payment->getType());
     }
 
     public function return_txref()

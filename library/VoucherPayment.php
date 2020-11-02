@@ -128,11 +128,11 @@ class VoucherPayment
             $array['tx_ref'] = $this->payment->txref;
         }
 
-        $this->payment->type = 'voucher_payment';
+        $this->payment->setType('voucher_payment');
 
         $this->payment->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
-        ->setEndPoint("v3/charges?type=".$this->payment->type);
+        ->setEndPoint("v3/charges?type=".$this->payment->getType());
         //returns the value from the results
         return $this->payment->chargePayment($array);
     }

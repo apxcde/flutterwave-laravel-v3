@@ -129,11 +129,11 @@ class Ach
             $this->payment->txref = $array['tx_ref'];
         }
 
-        $this->payment->type = 'ach_payment';
+        $this->payment->setType('ach_payment');
         //set the payment handler
         $this->payment->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
-        ->setEndPoint("v3/charges?type=".$this->payment->type);
+        ->setEndPoint("v3/charges?type=".$this->payment->getType());
 
         //returns the value from the results
         return $this->payment->chargePayment($array);

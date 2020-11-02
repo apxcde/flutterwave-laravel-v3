@@ -118,7 +118,7 @@ class Ussd
 
     public function ussd($array)
     {
-        $this->payment->type = 'ussd';
+        $this->payment->setType('ussd');
 
         //add tx_ref to the paylaod
         if (!isset($array['tx_ref']) || empty($array['tx_ref'])) {
@@ -128,7 +128,7 @@ class Ussd
         //set the payment handler
         $this->payment->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
-        ->setEndPoint("v3/charges?type=".$this->payment->type);
+        ->setEndPoint("v3/charges?type=".$this->payment->getType());
         //returns the value from the results
         return $this->payment->chargePayment($array);
     }

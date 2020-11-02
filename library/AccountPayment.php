@@ -154,7 +154,7 @@ class Account
         //validate the charge
         $this->payment->eventHandler($this->getEventHandler());
 
-        return $this->payment->validateTransaction($otp, $ref, $this->payment->type);
+        return $this->payment->validateTransaction($otp, $ref, $this->payment->getType());
     }
 
     public function return_txref()

@@ -130,7 +130,7 @@ class MobileMoney
             $array['tx_ref'] = $this->payment->txref;
         }
 
-        $this->payment->type = 'momo';
+        $this->payment->setType('momo');
         if (!in_array($array['type'], $this->type, true)) {
             throw new \Exception("The Type specified in the payload is not {$this->type[0]}, {$this->type[1]}, {$this->type[2]}, {$this->type[3]} or {$this->type[4]}", 1);
         }
