@@ -8,11 +8,11 @@
     "homepage": "https://github.com/kenkioko/flutterwave-laravel-v3",
     "autoload": {
         "classmap": [
-            "src/",
+            "library/",
             "tests/"
         ],
         "psr-4": {
-            "Laravel\\Flutterwave\\": "src/"
+            "Laravel\\Flutterwave\\": "library/"
         }
     },
     "autoload-dev": {
