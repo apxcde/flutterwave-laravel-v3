@@ -125,8 +125,6 @@ class Account
 
     public function accountCharge($array)
     {
-        //set the payment handler
-
         //add tx_ref to the paylaod
         if (!isset($array['tx_ref']) || empty($array['tx_ref'])) {
             $array['tx_ref'] = $this->payment->txref;
@@ -134,12 +132,11 @@ class Account
             $this->payment->txref = $array['tx_ref'];
         }
 
-
         if (!in_array($array['type'], $this->type)) {
             throw new \Exception("The Type specified in the payload  is not {$this->type[0]} or {$this->type[1]}", 1);
         }
 
-
+        //set the payment handler
         $this->payment->eventHandler($this->getEventHandler());
         //set the endpoint for the api call
         if ($this->type === $this->type[0]) {

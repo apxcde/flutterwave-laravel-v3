@@ -13,7 +13,7 @@ class Rave
     //Api keys
     protected $publicKey;
     protected $secretKey;
-    public $txref;
+    protected $txref;
     protected $integrityHash;
     protected $payButtonText = 'Proceed with Payment';
     protected $redirectUrl;
@@ -50,12 +50,13 @@ class Rave
     protected $customerFirstname;
     protected $customerLastname;
     protected $customerPhone;
+    protected $subaccount = array();
 
     //EndPoints
     protected $end_point ;
     protected $authModelUsed;
     protected $flwRef;
-    public $type;
+    protected $type;
 
     /**
      * Construct
@@ -167,8 +168,8 @@ class Rave
     }
 
     /**
-     * Sets the transaction amount
-     * @param integer $amount Transaction amount
+     * Sets the transaction account number
+     * @param integer $accountno Transaction account number
      * @return object
      * */
     public function setAccountNumber($accountno)
@@ -178,7 +179,7 @@ class Rave
     }
 
     /**
-     * Sets the transaction transaction card number
+     * Sets the transaction card number
      * @param integer $card_no Transaction card number
      * @return object
      * */
@@ -189,7 +190,7 @@ class Rave
     }
 
     /**
-     * Sets the transaction transaction CVV
+     * Sets the transaction CVV
      * @param integer $CVV Transaction CVV
      * @return object
      * */
@@ -199,7 +200,7 @@ class Rave
         return $this;
     }
     /**
-     * Sets the transaction transaction expiry_month
+     * Sets the transaction expiry_month
      * @param integer $expiry_month Transaction expiry_month
      * @return object
      * */
@@ -210,7 +211,7 @@ class Rave
     }
 
     /**
-     * Sets the transaction transaction expiry_year
+     * Sets the transaction expiry_year
      * @param integer $expiry_year Transaction expiry_year
      * @return object
      * */
@@ -220,7 +221,7 @@ class Rave
         return $this;
     }
     /**
-     * Sets the transaction transaction end point
+     * Sets the transaction end point
      * @param string $end_point Transaction expiry_year
      * @return object
      * */
@@ -513,6 +514,66 @@ class Rave
     }
 
     /**
+     * Sets the transaction sub account. Can be called multiple time to set multiple sub accounts
+     * @param array $subaccount
+     * @return object
+     * */
+    public function setSubAccount($subaccount)
+    {
+        array_push($this->subaccount, $subaccount);
+        return $this;
+    }
+
+    /**
+     * gets the transaction sub accounts
+     * @return string
+     * */
+    public function getSubAccount()
+    {
+        return $this->subaccount;
+    }
+
+    /**
+     * Sets the transaction reference
+     * @param string $txref
+     * @return object
+     * */
+    public function setTxRef($txref)
+    {
+        $this->txref = $txref;
+        return $this;
+    }
+
+    /**
+     * Gets the transaction reference
+     * @return object
+     * */
+    public function getTxRef()
+    {
+        return $this->txref;
+    }
+
+    /**
+     * Sets the transaction type
+     * @param string $txref
+     * @return object
+     * */
+    public function setType($type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * Gets the transaction type
+     * @return object
+     * */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
      * Sets the event hooks for all available triggers
      * @param object $handler This is a class that implements the Event Handler Interface
      * @return object
@@ -520,6 +581,15 @@ class Rave
     public function eventHandler($handler)
     {
         $this->handler = $handler;
+        return $this;
+    }
+
+    /**
+     * Gets the rave instance
+     * @return object
+     * */
+    public function getRaveInstance()
+    {
         return $this;
     }
 

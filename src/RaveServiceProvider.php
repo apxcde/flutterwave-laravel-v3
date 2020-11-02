@@ -90,7 +90,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindAccountPayment()
     {
-        $this->app->singleton('flutterwaveaccountpayment', function ($app) {
+        $this->app->bind('flutterwaveaccountpayment', function ($app) {
             return new Account;
         });
 
@@ -99,7 +99,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindAchPayment()
     {
-        $this->app->singleton('flutterwaveachpayment', function ($app) {
+        $this->app->bind('flutterwaveachpayment', function ($app) {
             return new Ach;
         });
 
@@ -108,7 +108,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindBill()
     {
-        $this->app->singleton('flutterwavebill', function ($app) {
+        $this->app->bind('flutterwavebill', function ($app) {
             return new Bill;
         });
 
@@ -117,7 +117,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindBvn()
     {
-        $this->app->singleton('flutterwavebvn', function ($app) {
+        $this->app->bind('flutterwavebvn', function ($app) {
             return new Bvn;
         });
 
@@ -126,7 +126,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindCardPayment()
     {
-        $this->app->singleton('flutterwavecardpayment', function ($app) {
+        $this->app->bind('flutterwavecardpayment', function ($app) {
             return new Card;
         });
 
@@ -135,7 +135,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindEbill()
     {
-        $this->app->singleton('flutterwaveebill', function ($app) {
+        $this->app->bind('flutterwaveebill', function ($app) {
             return new Ebill;
         });
 
@@ -144,7 +144,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindMisc()
     {
-        $this->app->singleton('flutterwavemisc', function ($app) {
+        $this->app->bind('flutterwavemisc', function ($app) {
             return new Misc;
         });
 
@@ -153,7 +153,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindMobileMoney()
     {
-        $this->app->singleton('flutterwavemobilemoney', function ($app) {
+        $this->app->bind('flutterwavemobilemoney', function ($app) {
             return new MobileMoney;
         });
 
@@ -162,7 +162,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindMpesa()
     {
-        $this->app->singleton('flutterwavempesa', function ($app) {
+        $this->app->bind('flutterwavempesa', function ($app) {
             return new Mpesa;
         });
 
@@ -171,7 +171,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindPaymentPlan()
     {
-        $this->app->singleton('flutterwavepaymentplan', function ($app) {
+        $this->app->bind('flutterwavepaymentplan', function ($app) {
             return new PaymentPlan;
         });
 
@@ -180,7 +180,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindRave()
     {
-        $this->app->singleton('flutterwaverave', function ($app) {
+        $this->app->bind('flutterwaverave', function ($app) {
             $secret_key = config('flutterwave.secret_key');
             $prefix = config('app.name');
 
@@ -192,7 +192,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindRecipient()
     {
-        $this->app->singleton('flutterwaverecipient', function ($app) {
+        $this->app->bind('flutterwaverecipient', function ($app) {
             return new Recipient;
         });
 
@@ -201,7 +201,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindSettlement()
     {
-        $this->app->singleton('flutterwavesetlement', function ($app) {
+        $this->app->bind('flutterwavesetlement', function ($app) {
             return new Settlement;
         });
 
@@ -210,7 +210,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindSubaccount()
     {
-        $this->app->singleton('flutterwavesubaccount', function ($app) {
+        $this->app->bind('flutterwavesubaccount', function ($app) {
             return new Subaccount;
         });
 
@@ -219,7 +219,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindSubscription()
     {
-        $this->app->singleton('flutterwavesubscription', function ($app) {
+        $this->app->bind('flutterwavesubscription', function ($app) {
             return new Subscription;
         });
 
@@ -228,7 +228,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindTokinizedCharge()
     {
-        $this->app->singleton('flutterwavetokenizedcharge', function ($app) {
+        $this->app->bind('flutterwavetokenizedcharge', function ($app) {
             return new TokinizedCharge;
         });
 
@@ -237,7 +237,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindTransactions()
     {
-        $this->app->singleton('flutterwavetransactions', function ($app) {
+        $this->app->bind('flutterwavetransactions', function ($app) {
             return new Transactions;
         });
 
@@ -246,7 +246,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindTransactionVerification()
     {
-        $this->app->singleton('flutterwavetransactionverification', function ($app) {
+        $this->app->bind('flutterwavetransactionverification', function ($app) {
             return new TransactionVerification;
         });
 
@@ -255,7 +255,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindTransfer()
     {
-        $this->app->singleton('flutterwavetransfer', function ($app) {
+        $this->app->bind('flutterwavetransfer', function ($app) {
             return new Transfer;
         });
 
@@ -264,7 +264,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindUssd()
     {
-        $this->app->singleton('flutterussd', function ($app) {
+        $this->app->bind('flutterussd', function ($app) {
             return new Ussd;
         });
 
@@ -273,7 +273,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindVirtualAccount()
     {
-        $this->app->singleton('flutterwavevirtualaccount', function ($app) {
+        $this->app->bind('flutterwavevirtualaccount', function ($app) {
             return new VirtualAccount;
         });
 
@@ -282,7 +282,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindVirtualCard()
     {
-        $this->app->singleton('fluttervirtualcard', function ($app) {
+        $this->app->bind('fluttervirtualcard', function ($app) {
             return new VirtualCard;
         });
 
@@ -291,7 +291,7 @@ class RaveServiceProvider extends ServiceProvider
 
     private function bindVoucherPayment()
     {
-        $this->app->singleton('fluttervoucherpayment', function ($app) {
+        $this->app->bind('fluttervoucherpayment', function ($app) {
             return new VoucherPayment;
         });
 
