@@ -2,6 +2,7 @@
 
 namespace Laravel\Flutterwave;
 
+use Laravel\Flutterwave\Facades\Rave;
 use Laravel\Flutterwave\EventHandler;
 
 abstract class RaveImplementAbstract
