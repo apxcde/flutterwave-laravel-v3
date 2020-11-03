@@ -50,7 +50,7 @@ class Rave
     protected $customerFirstname;
     protected $customerLastname;
     protected $customerPhone;
-    protected $subaccount = array();
+    protected $subaccounts = array();
 
     //EndPoints
     protected $end_point ;
@@ -260,7 +260,7 @@ class Rave
      * */
     public function setPaymentOptions($paymentOptions)
     {
-        $this->raveOptions = $paymentOptions;
+        $this->paymentOptions = $paymentOptions;
         return $this;
     }
 
@@ -270,7 +270,7 @@ class Rave
      * */
     public function getPaymentOptions()
     {
-        return $this->raveOptions;
+        return $this->paymentOptions;
     }
 
     /**
@@ -515,12 +515,23 @@ class Rave
 
     /**
      * Sets the transaction sub account. Can be called multiple time to set multiple sub accounts
+     * @param array $subaccounts
+     * @return object
+     * */
+    public function setSubaccounts($subaccounts)
+    {
+        $this->subaccounts = $subaccounts;
+        return $this;
+    }
+
+    /**
+     * Sets the transaction sub account. Can be called multiple time to set multiple sub accounts
      * @param array $subaccount
      * @return object
      * */
-    public function setSubAccount($subaccount)
+    public function setSingleSubaccount($subaccount)
     {
-        array_push($this->subaccount, $subaccount);
+        array_push($this->subaccounts, $subaccount);
         return $this;
     }
 
@@ -530,7 +541,7 @@ class Rave
      * */
     public function getSubAccount()
     {
-        return $this->subaccount;
+        return $this->subaccounts;
     }
 
     /**
@@ -663,50 +674,77 @@ class Rave
 
     /**
      * Generates the final json to be used in configuring the payment call to the rave payment gateway
-     * @return string
+     * @param   array $options
+     * @return  string (HTML response)
      * */
-    public function initialize()
+    public function initialize(array $options = array())
     {
         $this->createCheckSum();
 
-        echo '<html>';
-        echo '<body>';
-        echo '<center>Proccessing...<br /><img style="height: 50px;" src="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif" /></center>';
+        $data = [
+            'public_key' => $this->publicKey,
+            'tx_ref' => $this->txref,
+            'amount' => $this->amount,
+            'currency' => $this->currency,
+            'country' => $this->country,
+            'payment_options' => $this->paymentOptions ?? 'card,mobilemoney,ussd',
+            'redirect_url' => $this->redirectUrl,
+            'customer' => [
+                'email' => $this->customerEmail,
+                'phone_number' => $this->customerPhone,
+                'name' => "{$this->customerFirstname} {$this->customerLastname}",
+            ],
+            'customizations' => [
+                'title' => $this->customTitle,
+                'description' => $this->customDescription,
+                'logo' => $this->customLogo,
+            ],
+        ];
 
+        // set subaccounts
+        if (! empty($this->subaccounts)) {
+            $data['subaccounts'] = $this->subaccounts;
+        }
 
-        echo '<script type="text/javascript" src="https://checkout.flutterwave.com/v3.js"></script>';
+        // return the json array
+        if ($options['json_response'] ?? false == true) {
+            return $data;
+        }
 
-        echo '<script>';
-        echo 'document.addEventListener("DOMContentLoaded", function(event) {';
-        echo 'FlutterwaveCheckout({
-            public_key: "'.$this->publicKey.'",
-            tx_ref: "'.$this->txref.'",
-            amount: '.$this->amount.',
-            currency: "'.$this->currency.'",
-            country: "'.$this->country.'",
-            payment_options: "card,mobilemoney,ussd",
-            redirect_url:"'.$this->redirectUrl.'",
-            customer: {
-              email: "'.$this->customerEmail.'",
-              phone_number: "'.$this->customerPhone.'",
-              name: "'.$this->customerFirstname.' '.$this->customerLastname .'",
-            },
-            callback: function (data) {
-              console.log(data);
-            },
-            onclose: function() {
-                window.location = "?cancelled=cancelled";
-              },
-            customizations: {
-              title: "'.$this->customTitle.'",
-              description: "'.$this->customDescription.'",
-              logo: "'.$this->customLogo.'",
-            }
-        });';
-        echo '});';
-        echo '</script>';
-        echo '</body>';
-        echo '</html>';
+        $response  = '';
+        $response .=  '<html>';
+        $response .=  '<body>';
+        $response .=  '<center>Proccessing...<br /><img style="height: 50px;" src="https://media.giphy.com/media/swhRkVYLJDrCE/giphy.gif" /></center>';
+
+        $response .=  '<script type="text/javascript" src="https://checkout.flutterwave.com/v3.js"></script>';
+
+        $response .=  '<script>';
+        $response .=  'document.addEventListener("DOMContentLoaded", function(event) {';
+
+        $response .=  'var data = '. json_encode($data) .';';
+
+        $response .=  'data["onclose"] = function() {
+            window.location = "?cancelled=cancelled";
+        };';
+
+        $response .=  'data["callback"] = function (data) {
+            console.log(data);
+        };';
+
+        $response .=  'FlutterwaveCheckout(data);';
+        $response .=  '});';
+
+        $response .=  '</script>';
+        $response .=  '</body>';
+        $response .=  '</html>';
+
+        // echo the response
+        if ($options['echo_response'] ?? true == true) {
+            echo $response;
+        }
+
+        // return the html response string
+        return $response;
     }
 
     /**

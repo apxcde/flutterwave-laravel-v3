@@ -39,8 +39,9 @@ class RaveServiceProvider extends ServiceProvider
         $this->bindMobileMoney();
         $this->bindMpesa();
         $this->bindPaymentPlan();
-        $this->bindRave();
         $this->bindPreauth();
+        $this->bindProcessPayment();
+        $this->bindRave();
         $this->bindRecipient();
         $this->bindSettlement();
         $this->bindSubaccount();
@@ -72,8 +73,9 @@ class RaveServiceProvider extends ServiceProvider
             'flutterwavemobilemoney',
             'flutterwavempesa',
             'flutterwavepaymentplan',
-            'flutterwaverave',
             'flutterwavepreauth',
+            'flutterwaveprocesspayment',
+            'flutterwaverave',
             'flutterwaverecipient',
             'flutterwavesetlement',
             'flutterwavesubaccount',
@@ -197,6 +199,15 @@ class RaveServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('flutterwavepreauth', "Laravel\Flutterwave\Preauth");
+    }
+
+    private function bindProcessPayment()
+    {
+        $this->app->bind('flutterwaveprocesspayment', function ($app) {
+            return new ProcessPayment;
+        });
+
+        $this->app->alias('flutterwaveprocesspayment', "Laravel\Flutterwave\ProcessPayment");
     }
 
     private function bindRecipient()
