@@ -10,6 +10,7 @@ class MobileMoney extends RaveImplementAbstract
     {
         parent::__construct();
         $this->rave->setType('momo');
+        $this->type = array("mobile_money_ghana","mobile_money_uganda","mobile_money_zambia","mobile_money_rwanda","mobile_money_franco");
     }
 
     public function mobilemoney($array)

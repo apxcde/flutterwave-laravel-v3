@@ -35,6 +35,7 @@ class RaveServiceProvider extends ServiceProvider
         $this->bindBvn();
         $this->bindCardPayment();
         $this->bindEbill();
+        $this->bindInstantPayment();
         $this->bindMisc();
         $this->bindMobileMoney();
         $this->bindMpesa();
@@ -69,6 +70,7 @@ class RaveServiceProvider extends ServiceProvider
             'flutterwavebvn',
             'flutterwavecardpayment',
             'flutterwaveebill',
+            'flutterwaveinstantpayment',
             'flutterwavemisc',
             'flutterwavemobilemoney',
             'flutterwavempesa',
@@ -142,6 +144,15 @@ class RaveServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('flutterwaveebill', "Laravel\Flutterwave\Ebill");
+    }
+
+    private function bindInstantPayment()
+    {
+        $this->app->bind('flutterwaveinstantpayment', function ($app) {
+            return new InstantPayment;
+        });
+
+        $this->app->alias('flutterwaveinstantpayment', "Laravel\Flutterwave\InstantPayment");
     }
 
     private function bindMisc()
