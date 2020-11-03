@@ -6,14 +6,18 @@ use Laravel\Flutterwave\RaveImplementAbstract;
 
 class Mpesa extends RaveImplementAbstract
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->rave->setType('mpesa');
+    }
+
     public function mpesa($array)
     {
         //add tx_ref to the paylaod
         if (!isset($array['tx_ref']) || empty($array['tx_ref'])) {
             $array['tx_ref'] = $this->rave->getTxRef();
         }
-
-        $this->rave->setType('mpesa');
 
         //set the payment handler
         $this->rave->eventHandler($this->getEventHandler())

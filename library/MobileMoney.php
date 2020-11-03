@@ -9,7 +9,7 @@ class MobileMoney extends RaveImplementAbstract
     public function __construct()
     {
         parent::__construct();
-        $this->type = array("mobile_money_ghana", "mobile_money_uganda", "mobile_money_zambia", "mobile_money_rwanda", "mobile_money_franco");
+        $this->rave->setType('momo');
     }
 
     public function mobilemoney($array)
@@ -19,7 +19,6 @@ class MobileMoney extends RaveImplementAbstract
             $array['tx_ref'] = $this->rave->getTxRef();
         }
 
-        $this->rave->setType('momo');
         if (!in_array($array['type'], $this->type, true)) {
             throw new \Exception("The Type specified in the payload is not {$this->type[0]}, {$this->type[1]}, {$this->type[2]}, {$this->type[3]} or {$this->type[4]}", 1);
         }
