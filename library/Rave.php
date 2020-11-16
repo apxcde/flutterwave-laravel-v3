@@ -682,7 +682,7 @@ class Rave
         $this->createCheckSum();
         
         // get paymentOptions
-        $paymentOptions = 'card,mobilemoney,ussd';
+        $payment_options = 'card,mobilemoney,ussd';
         if (isset($this->paymentOptions) and !empty($this->paymentOptions)) {
             $payment_options = $this->paymentOptions;
         }
