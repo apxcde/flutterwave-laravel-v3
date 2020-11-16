@@ -680,6 +680,12 @@ class Rave
     public function initialize(array $options = array())
     {
         $this->createCheckSum();
+        
+        // get paymentOptions
+        $paymentOptions = 'card,mobilemoney,ussd';
+        if (isset($this->paymentOptions) and !empty($this->paymentOptions)) {
+            $payment_options = $this->paymentOptions;
+        }
 
         $data = [
             'public_key' => $this->publicKey,
@@ -687,7 +693,7 @@ class Rave
             'amount' => $this->amount,
             'currency' => $this->currency,
             'country' => $this->country,
-            'payment_options' => $this->paymentOptions ?? 'card,mobilemoney,ussd',
+            'payment_options' => $payment_options,
             'redirect_url' => $this->redirectUrl,
             'customer' => [
                 'email' => $this->customerEmail,
