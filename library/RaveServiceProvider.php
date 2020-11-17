@@ -31,6 +31,7 @@ class RaveServiceProvider extends ServiceProvider
     {
         $this->bindAccountPayment();
         $this->bindAchPayment();
+        $this->bindBank();
         $this->bindBill();
         $this->bindBvn();
         $this->bindCardPayment();
@@ -108,6 +109,15 @@ class RaveServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('flutterwaveachpayment', "Laravel\Flutterwave\Ach");
+    }
+
+    private function bindBank()
+    {
+        $this->app->bind('flutterwavebank', function ($app) {
+            return new Bank;
+        });
+
+        $this->app->alias('flutterwavebank', "Laravel\Flutterwave\Bank");
     }
 
     private function bindBill()

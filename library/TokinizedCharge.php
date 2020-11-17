@@ -38,7 +38,7 @@ class TokinizedCharge extends RaveImplementAbstract
         //set the payment handler
         $this->rave->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
-        ->setEndPoint("v2/gpx/tokens/embed_token/update_customer");
+        ->setEndPoint("v3/gpx/tokens/embed_token/update_customer");
         //returns the value from the results
         //you can choose to store the returned value in a variable and validate within this function
         return $this->rave->postURL($data);

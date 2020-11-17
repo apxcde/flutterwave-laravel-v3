@@ -67,18 +67,4 @@ class Transfer extends RaveImplementAbstract
 
         return $this->rave->applicableFees($array);
     }
-
-    public function getBanksForTransfer($data)
-    {
-        if (!isset($array['country'])) {
-            throw new \Exception("Missing value for country in your payload", 1);
-        }
-
-        //set the payment handler
-        $his->transfer->eventHandler($this->getEventHandler())
-        //set the endpoint for the api call
-        ->setEndPoint("v2/banks/".$data['country']."/");
-
-        return $this->rave->getBanksForTransfer();
-    }
 }

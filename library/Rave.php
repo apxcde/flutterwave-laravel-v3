@@ -680,7 +680,7 @@ class Rave
     public function initialize(array $options = array())
     {
         $this->createCheckSum();
-        
+
         // get paymentOptions
         $payment_options = 'card,mobilemoney,ussd';
         if (isset($this->paymentOptions) and !empty($this->paymentOptions)) {
@@ -1182,7 +1182,8 @@ class Rave
                     }
                 }
             } else {
-                return '<div class="alert alert-danger">'.$result['message'].'</div>';
+                throw new \Exception($result['message'], 1);
+
             }
 
             //passes the result to the suggestedAuth function which re-initiates the charge
@@ -1194,6 +1195,8 @@ class Rave
             if (isset($result['meta']['authorization'])) {
                 header('Location:'.$result['meta']['authorization']['redirect']);
             }
+
+            return $result;
         } else {
             $result  = $this->postURL($array);
             // the result returned requires validation
@@ -1602,7 +1605,21 @@ class Rave
 
         //get banks for transfer
         $url = "";
-        $result = $this->getURL($url);
+        return $this->getURL($url);
+    }
+
+    /**
+     * Lists banks for Transfer with this method
+     * @return object
+     * */
+
+    public function getBankBranchesForTransfer()
+    {
+        Log::notice('Fetching bank branches available for Transfer...');
+
+        //get banks for transfer
+        $url = "";
+        return $this->getURL($url);
     }
 
     /**
