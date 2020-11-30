@@ -2,9 +2,10 @@
 Laravel Package for Flutterwave v3 APIs
 
 ## Installation
-To get the latest version of Flutterwave Rave for Laravel, simply use composer
-
-`composer require kenkioko/flutterwave-laravel-v3`
+To get the latest version of Flutterwave Rave for Laravel, simply use composer:
+``` bash
+composer require kenkioko/flutterwave-laravel-v3`
+```
 
 For `Laravel => 5.5`, skip this step and go to configuration
 
