@@ -49,24 +49,12 @@ abstract class RaveImplementAbstract
     }
 
     /**
-     * you will need to validate and verify the charge
-     * Validating the charge will require an otp
-     * After validation then verify the charge with the txRef
-     * You can write out your function to execute when the verification is successful in the onSuccessful function
-    ***/
-    public function validateTransaction($element, $ref)
-    {
-        //validate the charge
-        return $this->rave->validateTransaction($element, $ref, $this->rave->getType());
-    }
-
-    /**you will need to verify the charge
-     * After validation then verify the charge with the txRef
+     * You will need to verify the transaction
      * You can write out your function to execute when the verification is successful in the onSuccessful function
     ***/
     public function verifyTransaction($id)
     {
-        //verify the charge
+        //verify the transaction
         return $this->rave->verifyTransaction($id);
     }
 }

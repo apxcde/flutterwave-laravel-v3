@@ -879,22 +879,23 @@ class Rave
         Log::notice('Validating otp...');
         $this->setEndPoint("v3/validate-charge");
         $this->post_data = array(
-            'type' => $type,//type can be card or account
+            'type' => $type,    //type can be card or account
             'flw_ref' => $ref,
-            'otp' => $otp,
+            'otp' => $otp
         );
         $result  = $this->postURL($this->post_data);
         return $result;
     }
 
-    public function validateTransaction2($pin, $Ref)
+    public function validateTransactionPin($otp, $Ref)
     {
         Log::notice('Validating pin...');
         $this->setEndPoint("v3/validate-charge");
         $this->post_data = array(
             'PBFPubKey' => $this->publicKey,
-            'transactionreference' => $Ref,
-            'otp' => $otp);
+            'transaction_reference' => $Ref,
+            'otp' => $otp
+        );
         $result  = $this->postURL($this->post_data);
         return $result;
     }

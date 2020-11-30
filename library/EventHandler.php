@@ -30,7 +30,7 @@ class EventHandler implements EventHandlerInterface
         // Update the transaction to note that you have given value for the transaction
         // You can also redirect to your success page from here
         if ($transactionData["data"]["chargecode"] === '00' || $transactionData["data"]["chargecode"] === '0') {
-            echo "Transaction Completed";
+            // echo "Transaction Completed";
         } else {
             $this->onFailure($transactionData);
         }

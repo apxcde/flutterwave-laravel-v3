@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Log;
 class ProcessPayment extends RaveImplementAbstract
 {
     protected $response_options = [
-        'echo_response' => true,
+        'echo_response' => false,
+        'json_response' => false,
     ];
 
     /**

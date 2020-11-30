@@ -9,12 +9,13 @@ class Account extends RaveImplementAbstract
     public function __construct()
     {
         parent::__construct();
+        $this->rave->setType('account');
         $this->type = array('debit_uk_account','debit_ng_account');
     }
 
     public function accountCharge($array)
     {
-        //add tx_ref to the paylaod
+        // add tx_ref to the paylaod
         if (!isset($array['tx_ref']) || empty($array['tx_ref'])) {
             $array['tx_ref'] = $this->rave->getTxRef();
         } else {
@@ -26,15 +27,22 @@ class Account extends RaveImplementAbstract
         }
 
         //set the payment handler
-        $this->rave->eventHandler($this->getEventHandler());
-        //set the endpoint for the api call
-        if ($this->type === $this->type[0]) {
-            $this->rave->setEndPoint("v3/charges?type=debit_uk_account");
-        } else {
-            $this->rave->setEndPoint("v3/charges?type=debit_ng_account");
-        }
+        $this->rave->eventHandler($this->getEventHandler())
+        ->setEndPoint("v3/charges?type=".$array['type']);
 
-
+        //returns the value from the results
         return $this->rave->chargePayment($array);
+    }
+
+    /**
+     * You will need to validate and verify the charge
+     * Validating the charge will require an otp
+     * After validation then verify the charge with the txRef
+     * You can write out your function to execute when the verification is successful in the onSuccessful function
+    ***/
+    public function validateTransaction($otp, $ref)
+    {
+        //validate the charge
+        return $this->rave->validateTransaction($otp, $ref, $this->rave->getType());
     }
 }
