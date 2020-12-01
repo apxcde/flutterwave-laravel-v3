@@ -6,12 +6,19 @@ use Laravel\Flutterwave\RaveImplementAbstract;
 
 class Transaction extends RaveImplementAbstract
 {
-    public function viewTransactions()
+    public function viewTransactions($array = array())
     {
+        // create url query
+        $url = url("v3/transactions");
+        if (!empty($array)) {
+            $query = http_build_query($array);
+            $url .= "?{$query}";
+        }
+
         //set the payment handler
         $this->rave->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
-        ->setEndPoint("v3/transactions");
+        ->setEndPoint($url);
         //returns the value from the results
         return $this->rave->getAllTransactions();
     }
@@ -22,10 +29,17 @@ class Transaction extends RaveImplementAbstract
             throw new \Exception("The following query param  is required amount", 1);
         }
 
+        if (!isset($array['currency'])) {
+            throw new \Exception("The following query param  is required currency", 1);
+        }
+
+        // create url query
+        $query = http_build_query($array);
+
         //set the payment handler
         $this->rave->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
-        ->setEndPoint("v3/transactions/fee");
+        ->setEndPoint("v3/transactions/fee?{$query}");
         //returns the value from the results
         return $this->rave->getTransactionFee($array);
     }
