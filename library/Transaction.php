@@ -53,4 +53,14 @@ class Transaction extends RaveImplementAbstract
         //returns the value from the results
         return $this->rave->verifyTransaction($id);
     }
+
+    public function validateTransaction($otp, $ref, $type)
+    {
+        //set the payment handler
+        $this->rave->eventHandler($this->getEventHandler())
+        //set the endpoint for the api call
+        ->setEndPoint("v3/validate-charge");
+        //returns the value from the results
+        return $this->rave->validateTransaction($otp, $ref, $type);
+    }
 }

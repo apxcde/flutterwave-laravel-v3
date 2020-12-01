@@ -47,14 +47,4 @@ abstract class RaveImplementAbstract
     {
         return $this->rave;
     }
-
-    /**
-     * You will need to verify the transaction
-     * You can write out your function to execute when the verification is successful in the onSuccessful function
-    ***/
-    public function verifyTransaction($id)
-    {
-        //verify the transaction
-        return $this->rave->verifyTransaction($id);
-    }
 }
