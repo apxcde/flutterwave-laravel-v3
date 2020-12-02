@@ -782,6 +782,7 @@ class Rave
         $encData = openssl_encrypt($data, 'DES-EDE3', $key, OPENSSL_RAW_DATA);
         return base64_encode($encData);
     }
+
     /**
      * this is the encryption function that combines the getkey() and encryptDes().
      * @param string
@@ -1132,32 +1133,27 @@ class Rave
      * */
     public function chargePayment($array)
     {
-
         //remove the type param from the payload
-
         $this->options = $array;
-
 
         if ($this->type === 'card') {
             $this->json_options = json_encode($this->options);
             Log::notice('Checking payment details..');
             //encrypt the required options to pass to the server
             $this->integrityHash = $this->encryption($this->json_options);
-            $this->post_data = array(
-             'client' => $this->integrityHash
-            );
+            $this->post_data = array('client' => $this->integrityHash);
 
             $result  = $this->postURL($this->post_data);
             // the result returned requires validation
             $result = json_decode($result, true);
 
             if ($result['status'] == 'success') {
-                if ($result['meta']['authorization']['mode'] == 'pin' || $result['meta']['authorization']['mode'] == 'avs_noauth'
-                || $result['meta']['authorization']['mode'] == 'redirect' || $result['meta']['authorization']['mode'] == 'otp') {
+                if ($result['meta']['authorization']['mode'] == 'pin'
+                || $result['meta']['authorization']['mode'] == 'avs_noauth'
+                || $result['meta']['authorization']['mode'] == 'redirect'
+                || $result['meta']['authorization']['mode'] == 'otp') {
                     Log::notice('Payment requires otp validation...authmodel:'.$result['meta']['authorization']['mode']);
                     $this->authModelUsed = $result['meta']['authorization']['mode'];
-
-
 
                     if ($this->authModelUsed == 'redirect') {
                         header('Location:'.$result['meta']['authorization']['redirect']);
@@ -1169,12 +1165,17 @@ class Rave
 
                     if ($this->authModelUsed == 'otp') {
                         $this->flwRef = $result['data']['flw_ref'];
-                        return ['data' => ["flw_ref" => $this->flwRef, "id" => $result['data']['id'],"auth_mode" => $result['meta']['authorization']['mode']]];
+                        return [
+                            'data' => [
+                                "flw_ref" => $this->flwRef,
+                                "id" => $result['data']['id'],
+                                "auth_mode" => $result['meta']['authorization']['mode'],
+                            ]
+                        ];
                     }
                 }
             } else {
                 throw new \Exception($result['message'], 1);
-
             }
 
             //passes the result to the suggestedAuth function which re-initiates the charge
@@ -1236,6 +1237,7 @@ class Rave
         $result =  $this->putURL($array);
         return json_decode($result, true);
     }
+
     /**
          * Used to create sub account on the rave dashboard
          *  @param array
