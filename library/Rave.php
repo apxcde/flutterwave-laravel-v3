@@ -860,11 +860,16 @@ class Rave
     *  @param string
     *  @return object
     * */
-    public function verifyTransaction($id)
+    public function verifyTransaction($id = null)
     {
-        $url = "/".$id."/verify";
         Log::notice('Verifying transaction...');
-        $this->setEndPoint("v3/transactions");
+
+        $url = "";
+        if (isset($id)) {
+            $url = "/".$id."/verify";
+            $this->setEndPoint("v3/transactions");
+        }
+
         $result  = $this->getURL($url);
         return json_decode($result, true);
     }
@@ -906,17 +911,30 @@ class Rave
      *  @return object
      * */
 
-    public function getAllTransactions()
+    public function getAllTransactions(array $array = array())
     {
         Log::notice('Getting all Transactions...');
+
+        // create url query
         $url = "";
+        if (!empty($array)) {
+            $query = http_build_query($array);
+            $url .= "?{$query}";
+        }
+
         $result = $this->getURL($url);
         return json_decode($result, true);
     }
 
-    public function getTransactionFee()
+    public function getTransactionFee(array $array = array())
     {
+        // create url query
         $url = "";
+        if (!empty($array)) {
+            $query = http_build_query($array);
+            $url .= "?{$query}";
+        }
+
         $result = $this->getURL($url);
         return json_decode($result, true);
     }
@@ -1156,7 +1174,8 @@ class Rave
                     $this->authModelUsed = $result['meta']['authorization']['mode'];
 
                     if ($this->authModelUsed == 'redirect') {
-                        header('Location:'.$result['meta']['authorization']['redirect']);
+                        // header('Location:'.$result['meta']['authorization']['redirect']);
+                        return $result;
                     }
 
                     if ($this->authModelUsed == 'pin' || $this->authModelUsed == 'avs_noauth') {
@@ -1185,7 +1204,8 @@ class Rave
 
             // print_r($result['meta']);
             if (isset($result['meta']['authorization'])) {
-                header('Location:'.$result['meta']['authorization']['redirect']);
+                // header('Location:'.$result['meta']['authorization']['redirect']);
+                return $result;
             }
 
             return $result;
@@ -1195,7 +1215,8 @@ class Rave
             $result = json_decode($result, true);
 
             if (isset($result['meta']['redirect'])) {
-                header('Location:'.$result['meta']['redirect']);
+                // header('Location:'.$result['meta']['redirect']);
+                return $result;
             }
 
             if (isset($result['data']['status'])) {
@@ -1482,7 +1503,6 @@ class Rave
         }
 
         $result = $this->postUrl($array);
-
         return json_decode($result, true);
     }
 
@@ -1492,23 +1512,19 @@ class Rave
      * @return object
      * */
 
-    public function listTransfers($data)
+    public function listTransfers(array $array = array())
     {
         Log::notice('Fetching list of transfers...');
 
-        if (isset($data['page'])) {
-            $url = "?page=".$data['page'];
-            return json_decode($this->getURL($url), true);
-        } elseif (isset($data['page']) && isset($data['status'])) {
-            $url = "?page".$data['page']."&status".$data['status'];
-            return json_decode($this->getURL($url), true);
-        } elseif (isset($data['status'])) {
-            $url = "?status=".$data['status'];
-            return json_decode($this->getURL($url), true);
-        } else {
-            $url = "";
-            return json_decode($this->getURL($url), true);
+        // create url query
+        $url = "";
+        if (!empty($array)) {
+            $query = http_build_query($array);
+            $url .= "?{$query}";
         }
+
+        $result = $this->getURL($url);
+        return json_decode($result, true);
     }
 
     /**
@@ -1531,10 +1547,17 @@ class Rave
      * @return object
      * */
 
-    public function applicableFees($data)
+    public function applicableFees(array $array = array())
     {
         Log::notice('Fetching applicable fees...');
-        $url = "?currency=".$data['currency']."&amount=".$data['amount'];
+
+        // create url query
+        $url = "";
+        if (!empty($array)) {
+            $query = http_build_query($array);
+            $url .= "?{$query}";
+        }
+
         $result = $this->getURL($url);
         return json_decode($result, true);
     }

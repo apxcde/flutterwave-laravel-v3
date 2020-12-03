@@ -11,8 +11,8 @@ class VirtualAccount extends RaveImplementAbstract
      */
     public function createvirtualAccount($userdata)
     {
-        if (!isset($userdata['email']) || !isset($userdata['duration']) || !isset($userdata['frequency']) || !isset($userdata['amount'])) {
-            throw new \Exception("The following body params are required: email, duration, frequency, or amount", 1);
+        if (!isset($userdata['email'])) {
+            throw new \Exception("The following body params are required: email", 1);
         }
 
         //set the payment handler

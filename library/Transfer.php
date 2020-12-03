@@ -34,7 +34,7 @@ class Transfer extends RaveImplementAbstract
         return $this->rave->transferBulk($array);
     }
 
-    public function listTransfers($array = array('url'=>'blank'))
+    public function listTransfers($array = array())
     {
         //set the payment handler
         $this->rave->eventHandler($this->getEventHandler())
@@ -56,14 +56,18 @@ class Transfer extends RaveImplementAbstract
 
     public function getTransferFee($array)
     {
-        if (in_array('amount', $array) && gettype($array['amount']) !== "string") {
+        if (!isset($array['amount'])) {
+            throw new \Exception("The following query param  is required amount", 1);
+        }
+
+        if (gettype($array['amount']) !== "string") {
             $array['amount'] = (string) $array['amount'];
         }
 
         //set the payment handler
         $this->rave->eventHandler($this->getEventHandler())
-         //set the endpoint for the api call
-         ->setEndPoint("v3/transfers/fee");
+        //set the endpoint for the api call
+        ->setEndPoint("v3/transfers/fee");
 
         return $this->rave->applicableFees($array);
     }

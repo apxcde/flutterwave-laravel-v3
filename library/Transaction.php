@@ -8,19 +8,12 @@ class Transaction extends RaveImplementAbstract
 {
     public function viewTransactions($array = array())
     {
-        // create url query
-        $url = url("v3/transactions");
-        if (!empty($array)) {
-            $query = http_build_query($array);
-            $url .= "?{$query}";
-        }
-
         //set the payment handler
         $this->rave->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
-        ->setEndPoint($url);
+        ->setEndPoint("v3/transactions");
         //returns the value from the results
-        return $this->rave->getAllTransactions();
+        return $this->rave->getAllTransactions($array);
     }
 
     public function getTransactionFee($array = array())
@@ -33,13 +26,10 @@ class Transaction extends RaveImplementAbstract
             throw new \Exception("The following query param  is required currency", 1);
         }
 
-        // create url query
-        $query = http_build_query($array);
-
         //set the payment handler
         $this->rave->eventHandler($this->getEventHandler())
         //set the endpoint for the api call
-        ->setEndPoint("v3/transactions/fee?{$query}");
+        ->setEndPoint("v3/transactions/fee");
         //returns the value from the results
         return $this->rave->getTransactionFee($array);
     }
